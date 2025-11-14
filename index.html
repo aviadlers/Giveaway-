@@ -1,399 +1,1608 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adlers TV | Prize Wheel</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --gold: #FFD700;
-  --gold-dark: #E5C100;
-  --dark: #0D0D0D;
-  --dark-light: #1A1A1A;
-  --accent: #FF6B35;
-  --text-light: #FFF;
-  --glass-bg: rgba(255,255,255,0.05);
-  --confetti-colors: #FFD700, #FF6B35, #FF4500, #FFF;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adler's TV | Prize Wheel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #C47E2C; /* Adler's TV Golden-Brown */
+            --primary-light: #D89A4E;
+            --primary-dark: #A8661A;
+            --secondary: #2E5C8A;
+            --accent: #E8B954;
+            --dark: #1A1A1A;
+            --light: #FFFFFF;
+            --gray: #F5F5F5;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #D32F2F;
+        }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body{
-  background: linear-gradient(135deg, #0D0D0D, #1A1A1A);
-  color: var(--text-light);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  min-height:100vh;
-  padding:20px;
-  overflow-x:hidden;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-header{
-  text-align:center;
-  margin-bottom:40px;
-}
+        /* Animated background elements */
+        .bg-element {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196, 126, 44, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
 
-header h1{
-  font-size:3rem;
-  font-weight:800;
-  background: linear-gradient(45deg,var(--gold),var(--accent));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 0 10px rgba(255,215,0,0.6);
-}
+        .bg-element:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
 
-header h2{
-  font-size:1.2rem;
-  font-weight:500;
-  color: rgba(255,255,255,0.7);
-  margin-top:8px;
-}
+        .bg-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -2s;
+        }
 
-header .tagline{
-  font-size:1rem;
-  font-weight:600;
-  padding:6px 20px;
-  border-radius:20px;
-  background: rgba(255,215,0,0.15);
-  color: var(--gold);
-  margin-top:10px;
-  display:inline-block;
-}
+        .bg-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -4s;
+        }
 
-.wheel-container{
-  position: relative;
-  width:350px;
-  height:350px;
-  margin-bottom:30px;
-  perspective:1000px;
-}
+        .bg-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 30%;
+            right: 20%;
+            animation-delay: -1s;
+        }
 
-.wheel{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  border:12px solid var(--gold);
-  overflow:hidden;
-  position:relative;
-  transform:rotate(0deg);
-  transition: transform 4s cubic-bezier(0.17,0.67,0.83,0.67);
-  box-shadow: 0 0 15px rgba(255,215,0,0.3), 0 10px 40px rgba(0,0,0,0.5);
-}
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
 
-.wheel.spinning{
-  animation: glowWheel 1.5s infinite alternate;
-}
+        .header {
+            margin-bottom: 25px;
+            animation: fadeIn 1s ease;
+        }
 
-.segment{
-  position:absolute;
-  width:50%;
-  height:50%;
-  left:0; top:0;
-  transform-origin: bottom right;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
+        .logo {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
 
-.segment-content{
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-weight:700;
-  color:#FFF;
-  text-shadow:0 0 5px rgba(0,0,0,0.8);
-}
+        .subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
 
-.pointer-container{
-  position:absolute;
-  top:-25px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:10;
-}
+        .tagline {
+            font-size: 1rem;
+            color: var(--accent);
+            background: rgba(232, 185, 84, 0.15);
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
 
-.pointer{
-  width:50px;
-  height:50px;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background: var(--gold);
-  position: relative;
-}
+        .wheel-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            margin: 0 auto 40px;
+            perspective: 1000px;
+            transform: scale(1.1);
+        }
 
-.pointer::after{
-  content:'';
-  position:absolute;
-  top:8px; left:8px; right:8px; height:20px;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  background: rgba(255,215,0,0.6);
-}
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            border: 15px solid var(--primary);
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.3, 1);
+            transform: rotate(0deg);
+            box-shadow: 
+                0 0 0 3px rgba(255,255,255,0.15),
+                0 15px 40px rgba(0,0,0,0.5),
+                0 0 60px rgba(196, 126, 44, 0.4);
+            background: rgba(0,0,0,0.2);
+        }
 
-button{
-  cursor:pointer;
-  font-weight:700;
-  border:none;
-  border-radius:50px;
-  padding:15px 40px;
-  background: linear-gradient(135deg,var(--gold),var(--accent));
-  color:#000;
-  font-size:1.2rem;
-  box-shadow:0 5px 15px rgba(255,215,0,0.4);
-  transition: all 0.3s ease;
-}
+        .wheel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 50%);
+            border-radius: 50%;
+            z-index: 2;
+            pointer-events: none;
+        }
 
-button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(255,215,0,0.6);
-}
+        .wheel.spinning {
+            box-shadow: 
+                0 0 0 3px rgba(255,255,255,0.2),
+                0 15px 40px rgba(0,0,0,0.5),
+                0 0 80px rgba(196, 126, 44, 0.7);
+            animation: wheelGlow 1.5s infinite alternate;
+        }
 
-.stats{
-  display:flex;
-  justify-content:space-between;
-  margin-top:25px;
-  width:100%;
-  max-width:500px;
-}
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: white;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
 
-.stat-box{
-  background: var(--glass-bg);
-  flex:1;
-  margin:0 5px;
-  padding:15px;
-  border-radius:15px;
-  text-align:center;
-  backdrop-filter: blur(10px);
-  border:1px solid rgba(255,215,0,0.2);
-}
+        .segment-content {
+            transform: rotate(45deg);
+            text-align: center;
+            width: 90px;
+        }
 
-.stat-value{
-  font-size:2rem;
-  font-weight:800;
-  color:var(--gold);
-}
+        .segment-count {
+            font-size: 2rem;
+            font-weight: 900;
+            display: block;
+            line-height: 1;
+        }
 
-.stat-label{
-  font-size:0.8rem;
-  color:rgba(255,255,255,0.7);
-  margin-top:5px;
-}
+        .segment-text {
+            font-size: 0.7rem;
+            display: block;
+            opacity: 0.95;
+            margin-top: 3px;
+            font-weight: 700;
+        }
 
-/* Animations */
-@keyframes glowWheel{
-  0%{box-shadow:0 0 10px rgba(255,215,0,0.3),0 15px 40px rgba(0,0,0,0.5);}
-  100%{box-shadow:0 0 20px rgba(255,215,0,0.7),0 15px 50px rgba(0,0,0,0.5);}
-}
+        .pointer-container {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.4));
+        }
 
-@keyframes spinWheel{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
-}
+        .pointer {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: relative;
+        }
 
-.confetti{
-  position:fixed;
-  width:10px;
-  height:10px;
-  background:red;
-  pointer-events:none;
-  z-index:1000;
-  animation:confettiFall 3s linear forwards;
-}
+        .pointer::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 20px;
+            background: var(--primary-light);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
 
-@keyframes confettiFall{
-  0%{opacity:1; transform:translateY(0) rotate(0deg);}
-  100%{opacity:0; transform:translateY(600px) rotate(720deg);}
-}
+        .controls {
+            margin-bottom: 25px;
+        }
 
-/* Admin page */
-.admin-page{
-  display:none;
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: var(--dark);
-  padding:50px;
-  flex-direction:column;
-  align-items:center;
-  overflow-y:auto;
-}
+        .spin-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(196, 126, 44, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
 
-.admin-page.active{
-  display:flex;
-}
+        .spin-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
 
-.admin-page h2{
-  font-size:2rem;
-  margin-bottom:20px;
-  background: linear-gradient(45deg,var(--gold),var(--accent));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(196, 126, 44, 0.7);
+        }
 
-.admin-page label{
-  margin-top:10px;
-  display:block;
-  font-weight:600;
-}
+        .spin-button:hover::before {
+            left: 100%;
+        }
 
-.admin-page input{
-  width:300px;
-  padding:10px;
-  margin-top:5px;
-  border-radius:8px;
-  border:none;
-  background: var(--glass-bg);
-  color:#FFF;
-  backdrop-filter:blur(5px);
-}
+        .spin-button:active {
+            transform: translateY(-1px);
+        }
 
-.admin-page button{
-  margin-top:20px;
-}
+        .spin-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
 
-</style>
+        .spin-button:disabled::before {
+            display: none;
+        }
+
+        .spin-button.loading {
+            background: var(--secondary);
+            cursor: wait;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            perspective: 1000px;
+        }
+
+        .result {
+            padding: 30px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            display: none;
+            transform-style: preserve-3d;
+        }
+
+        .result.show {
+            display: block;
+            animation: flipIn 0.8s ease;
+        }
+
+        .result-title {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .result-prize {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+            padding: 10px;
+        }
+
+        .prize-emoji {
+            font-size: 2.5rem;
+            margin: 0 12px;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4));
+        }
+
+        .win-mega { 
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(232, 185, 84, 0.7);
+            animation: pulse 1s infinite, glow 2s infinite alternate;
+        }
+        .win-big { 
+            color: #4CAF50;
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+            animation: pulse 1.5s infinite;
+        }
+        .win-medium { 
+            color: #2E5C8A;
+            text-shadow: 0 0 10px rgba(46, 92, 138, 0.4);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 18px;
+            border-radius: 15px;
+            flex: 1;
+            margin: 0 6px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .admin-toggle {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            font-weight: 600;
+        }
+
+        .admin-toggle:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateY(-2px);
+        }
+
+        .admin-panel-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .admin-panel-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-panel {
+            background: rgba(30,30,30,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .close-admin {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-admin:hover {
+            background: rgba(255,255,255,0.1);
+            transform: rotate(90deg);
+        }
+
+        .panel-title {
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--accent);
+            text-align: center;
+            font-size: 1.5rem;
+            padding-right: 30px;
+        }
+
+        .panel-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-light);
+            font-size: 1.1rem;
+        }
+
+        .config-group {
+            margin: 15px 0;
+        }
+
+        .config-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .config-group input, .config-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.25);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .config-group input:focus, .config-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(196, 126, 44, 0.3);
+            outline: none;
+        }
+
+        .config-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .config-group small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .config-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .config-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .apply-button {
+            background: var(--success);
+            color: white;
+        }
+
+        .reset-button {
+            background: var(--primary);
+            color: white;
+        }
+
+        .export-button {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .segment-config {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .segment-config-item {
+            background: rgba(0,0,0,0.25);
+            padding: 12px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .segment-config-item:hover {
+            transform: translateY(-2px);
+            background: rgba(0,0,0,0.3);
+        }
+
+        .segment-config-item input {
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+        }
+
+        .passcode-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .passcode-dialog.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .passcode-content {
+            background: rgba(30,30,30,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .passcode-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        .passcode-input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .passcode-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .passcode-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .passcode-submit {
+            background: var(--primary);
+            color: white;
+        }
+
+        .passcode-cancel {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .confirmation-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .confirmation-dialog.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dialog-content {
+            background: rgba(30,30,30,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .dialog-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        .dialog-message {
+            margin-bottom: 25px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .dialog-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-button.confirm {
+            background: var(--danger);
+            color: white;
+        }
+
+        .dialog-button.cancel {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes flipIn {
+            0% { transform: rotateX(90deg); opacity: 0; }
+            100% { transform: rotateX(0); opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes wheelGlow {
+            from { box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 15px 40px rgba(0,0,0,0.5), 0 0 60px rgba(196, 126, 44, 0.4); }
+            to { box-shadow: 0 0 0 3px rgba(255,255,255,0.25), 0 15px 40px rgba(0,0,0,0.5), 0 0 90px rgba(196, 126, 44, 0.8); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(232, 185, 84, 0.7); }
+            to { text-shadow: 0 0 30px rgba(232, 185, 84, 1), 0 0 40px rgba(232, 185, 84, 0.5); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 500px) {
+            .wheel-container {
+                width: 300px;
+                height: 300px;
+                transform: scale(1);
+            }
+            
+            .logo {
+                font-size: 2.8rem;
+            }
+            
+            .result-prize {
+                font-size: 2.8rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .stat-box {
+                margin: 0;
+            }
+            
+            .segment-config {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .admin-panel {
+                padding: 20px;
+                margin: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Animated Background Elements -->
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
 
-<header>
-<h1>ADLERS TV</h1>
-<h2>Presents</h2>
-<div class="tagline">PRIZE BONANZA WHEEL</div>
-</header>
+    <div class="container">
+        <div class="header">
+            <div class="logo" id="mainTitle">ADLER'S TV</div>
+            <div class="subtitle" id="subTitle">Presents</div>
+            <div class="tagline" id="wheelTitle">PRIZE BONANZA WHEEL</div>
+        </div>
+        
+        <div class="wheel-container">
+            <div class="pointer-container">
+                <div class="pointer"></div>
+            </div>
+            <div class="wheel" id="wheel">
+                <!-- Segments will be generated by JavaScript -->
+            </div>
+        </div>
 
-<div class="wheel-container">
-  <div class="pointer-container"><div class="pointer"></div></div>
-  <div class="wheel" id="wheel"></div>
-</div>
+        <div class="controls">
+            <button class="spin-button" id="spinButton">
+                <span>SPIN TO WIN!</span>
+            </button>
+        </div>
+        
+        <div class="result-container">
+            <div class="result" id="result">
+                <div class="result-title" id="resultTitle">CONGRATULATIONS!</div>
+                <div class="result-prize" id="prizeText"></div>
+            </div>
+        </div>
 
-<button id="spinBtn">SPIN TO WIN!</button>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value" id="prizesLeft">30</div>
+                <div class="stat-label" id="prizesLabel">Prizes Left</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="spinsCompleted">0</div>
+                <div class="stat-label">Total Spins</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="giveawaysCompleted">0</div>
+                <div class="stat-label">Giveaways</div>
+            </div>
+        </div>
 
-<div class="stats">
-  <div class="stat-box">
-    <div class="stat-value" id="prizesLeft">30</div>
-    <div class="stat-label">Prizes Left</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-value" id="spinsDone">0</div>
-    <div class="stat-label">Total Spins</div>
-  </div>
-</div>
+        <button class="admin-toggle" id="adminToggle">⚙️ Admin Settings</button>
 
-<button id="adminBtn">Admin Panel 🔒</button>
+        <!-- Passcode Dialog -->
+        <div class="passcode-dialog" id="passcodeDialog">
+            <div class="passcode-content">
+                <div class="passcode-title">Admin Access Required</div>
+                <input type="password" class="passcode-input" id="passcodeInput" placeholder="Enter passcode" maxlength="4">
+                <div class="passcode-buttons">
+                    <button class="passcode-button passcode-cancel" id="passcodeCancel">Cancel</button>
+                    <button class="passcode-button passcode-submit" id="passcodeSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
 
-<div class="admin-page" id="adminPage">
-<h2>Admin Settings</h2>
-<label>Password</label>
-<input type="password" id="adminPass" placeholder="Enter password">
-<label>Total Prizes</label>
-<input type="number" id="totalPrizesInput" value="30">
-<label>Segment Names (comma separated)</label>
-<input type="text" id="segmentsInput" value="Mega,Big,Great,Good,Nice,Small,Frequent,Common">
-<label>Segment Values (comma separated)</label>
-<input type="text" id="valuesInput" value="20,15,10,5,4,3,2,1">
-<label>Segment Colors (comma separated hex)</label>
-<input type="text" id="colorsInput" value="#FFD700,#FFB347,#FFA500,#FF6B35,#FF4500,#F08080,#DA70D6,#9370DB">
-<button id="saveAdmin">Save & Close</button>
-</div>
+        <!-- Admin Panel Overlay -->
+        <div class="admin-panel-overlay" id="adminPanelOverlay">
+            <div class="admin-panel">
+                <button class="close-admin" id="closeAdmin">×</button>
+                <div class="panel-title">Wheel Configuration</div>
+                
+                <div class="panel-section">
+                    <div class="section-title">Branding & Text</div>
+                    <div class="config-group">
+                        <label>Main Title:</label>
+                        <input type="text" id="mainTitleInput" value="ADLER'S TV">
+                    </div>
 
-<script>
-// Config
-let config={
-segments:["Mega","Big","Great","Good","Nice","Small","Frequent","Common"],
-values:[20,15,10,5,4,3,2,1],
-colors:["#FFD700","#FFB347","#FFA500","#FF6B35","#FF4500","#F08080","#DA70D6","#9370DB"],
-totalPrizes:30
-};
+                    <div class="config-group">
+                        <label>Subtitle:</label>
+                        <input type="text" id="subTitleInput" value="Presents">
+                    </div>
 
-let state={prizesLeft:config.totalPrizes,spinsDone:0};
+                    <div class="config-group">
+                        <label>Wheel Title:</label>
+                        <input type="text" id="wheelTitleInput" value="PRIZE BONANZA WHEEL">
+                    </div>
 
-// Generate wheel
-function drawWheel(){
-  const wheel=document.getElementById("wheel");
-  wheel.innerHTML="";
-  const segCount=config.segments.length;
-  const angle=360/segCount;
-  config.segments.forEach((name,i)=>{
-    const seg=document.createElement("div");
-    seg.className="segment";
-    seg.style.transform=`rotate(${i*angle}deg)`;
-    const content=document.createElement("div");
-    content.className="segment-content";
-    content.style.color=config.colors[i%config.colors.length];
-    content.innerHTML=`${config.values[i]}<br>${name}`;
-    seg.appendChild(content);
-    wheel.appendChild(seg);
-  });
-}
+                    <div class="config-group">
+                        <label>Result Title:</label>
+                        <input type="text" id="resultTitleInput" value="CONGRATULATIONS!">
+                    </div>
 
-// Spin
-function spinWheel(){
-  if(state.prizesLeft<=0) return;
-  const wheel=document.getElementById("wheel");
-  const segments=config.segments.length;
-  const rand=Math.floor(Math.random()*segments);
-  const anglePer=360/segments;
-  const finalRotation=360*5+(360-(rand*anglePer+anglePer/2));
-  wheel.style.transition="transform 4s cubic-bezier(0.17,0.67,0.83,0.67)";
-  wheel.style.transform=`rotate(${finalRotation}deg)`;
-  wheel.classList.add("spinning");
-  setTimeout(()=>{
-    wheel.classList.remove("spinning");
-    wheel.style.transition="none";
-    const prize=config.values[rand];
-    state.prizesLeft-=prize;
-    if(state.prizesLeft<0) state.prizesLeft=0;
-    state.spinsDone++;
-    document.getElementById("prizesLeft").innerText=state.prizesLeft;
-    document.getElementById("spinsDone").innerText=state.spinsDone;
-    launchConfetti();
-    if(state.prizesLeft<=0) alert("Giveaway Complete!");
-  },4000);
-}
+                    <div class="config-group">
+                        <label>Prizes Label:</label>
+                        <input type="text" id="prizesLabelInput" value="Prizes Left">
+                    </div>
 
-// Confetti
-function launchConfetti(){
-  for(let i=0;i<30;i++){
-    const conf=document.createElement("div");
-    conf.className="confetti";
-    conf.style.left=Math.random()*window.innerWidth+"px";
-    conf.style.background=config.colors[Math.floor(Math.random()*config.colors.length)];
-    document.body.appendChild(conf);
-    setTimeout(()=>conf.remove(),3000);
-  }
-}
+                    <div class="config-group">
+                        <label>Prize Unit Name:</label>
+                        <input type="text" id="prizeUnitInput" value="Noodles">
+                    </div>
+                </div>
 
-// Admin Panel
-document.getElementById("adminBtn").addEventListener("click",()=>{
-  const pwd=prompt("Enter Admin Password");
-  if(pwd==="adlers123"){
-    document.getElementById("adminPage").classList.add("active");
-  } else alert("Wrong password!");
-});
+                <div class="panel-section">
+                    <div class="section-title">Game Settings</div>
+                    <div class="config-group">
+                        <label>Total Prizes Available:</label>
+                        <input type="number" id="totalPrizes" value="30" min="1">
+                    </div>
 
-document.getElementById("saveAdmin").addEventListener("click",()=>{
-  const names=document.getElementById("segmentsInput").value.split(",");
-  const vals=document.getElementById("valuesInput").value.split(",").map(Number);
-  const cols=document.getElementById("colorsInput").value.split(",");
-  const total=parseInt(document.getElementById("totalPrizesInput").value);
-  if(names.length===vals.length && vals.length===cols.length){
-    config.segments=names;
-    config.values=vals;
-    config.colors=cols;
-    config.totalPrizes=total;
-    state.prizesLeft=total;
-    state.spinsDone=0;
-    document.getElementById("prizesLeft").innerText=state.prizesLeft;
-    document.getElementById("spinsDone").innerText=state.spinsDone;
-    drawWheel();
-    document.getElementById("adminPage").classList.remove("active");
-  } else alert("Arrays lengths must match!");
-});
+                    <div class="config-group">
+                        <label>Segment Configuration:</label>
+                        <div class="segment-config" id="segmentConfig">
+                            <!-- Segment inputs will be generated by JavaScript -->
+                        </div>
+                        <small>Format: Value, Weight, Display Name</small>
+                    </div>
+                </div>
 
-document.getElementById("spinBtn").addEventListener("click",spinWheel);
+                <div class="panel-section">
+                    <div class="section-title">Participant Tracking</div>
+                    <div class="config-group">
+                        <label>Participant Name (Optional):</label>
+                        <input type="text" id="participantName" placeholder="Enter participant name for record keeping">
+                    </div>
+                </div>
 
-drawWheel();
-</script>
+                <div class="button-group">
+                    <button class="config-button apply-button" id="applyConfig">Apply Changes</button>
+                    <button class="config-button reset-button" id="resetGame">Reset Game</button>
+                    <button class="config-button export-button" id="exportCSV">Export CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Dialog -->
+        <div class="confirmation-dialog" id="confirmationDialog">
+            <div class="dialog-content">
+                <div class="dialog-title" id="dialogTitle">Confirm Action</div>
+                <div class="dialog-message" id="dialogMessage">Are you sure you want to proceed?</div>
+                <div class="dialog-buttons">
+                    <button class="dialog-button cancel" id="dialogCancel">Cancel</button>
+                    <button class="dialog-button confirm" id="dialogConfirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Applying Changes...</div>
+        </div>
+    </div>
+
+    <script>
+        // Default configuration with Adler's TV brand colors
+        const defaultConfig = {
+            mainTitle: "ADLER'S TV",
+            subTitle: "Presents",
+            wheelTitle: "PRIZE BONANZA WHEEL",
+            resultTitle: "CONGRATULATIONS!",
+            prizesLabel: "Prizes Left",
+            prizeUnit: "Noodles",
+            totalPrizes: 30,
+            segments: [
+                { value: 20, weight: 1, name: "Mega Win" },
+                { value: 15, weight: 1, name: "Big Win" },
+                { value: 10, weight: 1, name: "Great Win" },
+                { value: 5, weight: 2, name: "Good Win" },
+                { value: 4, weight: 2, name: "Nice Win" },
+                { value: 3, weight: 3, name: "Small Win" },
+                { value: 2, weight: 4, name: "Frequent Win" },
+                { value: 1, weight: 5, name: "Common Win" }
+            ],
+            // Expanded color palette for more variety
+            segmentColors: [
+                '#C47E2C', '#D89A4E', '#2E5C8A', '#A8661A',
+                '#E8B954', '#8B5A2B', '#4A752C', '#6B8C9E',
+                '#9C27B0', '#2196F3', '#FF9800', '#4CAF50',
+                '#F44336', '#795548', '#607D8B', '#FF5722',
+                '#673AB7', '#009688', '#FFC107', '#CDDC39'
+            ],
+            adminPasscode: "1234" // Simple passcode for admin access
+        };
+
+        // Default game state
+        const defaultGameState = {
+            prizesRemaining: defaultConfig.totalPrizes,
+            spinsCompleted: 0,
+            giveawaysCompleted: 0,
+            isGameActive: true,
+            participants: []
+        };
+
+        // Load configuration and game state from localStorage
+        let config = JSON.parse(JSON.stringify(defaultConfig));
+        let gameState = JSON.parse(JSON.stringify(defaultGameState));
+
+        // Try to load from localStorage
+        try {
+            const savedConfig = localStorage.getItem('adlersTVWheelConfig');
+            const savedGameState = localStorage.getItem('adlersTVWheelGameState');
+            
+            if (savedConfig) {
+                const parsedConfig = JSON.parse(savedConfig);
+                // Merge with default to ensure all properties exist
+                config = { ...defaultConfig, ...parsedConfig };
+            }
+            
+            if (savedGameState) {
+                const parsedGameState = JSON.parse(savedGameState);
+                // Merge with default to ensure all properties exist
+                gameState = { ...defaultGameState, ...parsedGameState };
+            }
+        } catch (e) {
+            console.error("Error loading from localStorage:", e);
+            // Use defaults if there's an error
+        }
+
+        // Save functions
+        function saveConfig() {
+            try {
+                localStorage.setItem('adlersTVWheelConfig', JSON.stringify(config));
+            } catch (e) {
+                console.error("Error saving config to localStorage:", e);
+            }
+        }
+
+        function saveGameState() {
+            try {
+                localStorage.setItem('adlersTVWheelGameState', JSON.stringify(gameState));
+            } catch (e) {
+                console.error("Error saving game state to localStorage:", e);
+            }
+        }
+
+        // DOM elements
+        const wheel = document.getElementById('wheel');
+        const spinButton = document.getElementById('spinButton');
+        const result = document.getElementById('result');
+        const prizeText = document.getElementById('prizeText');
+        const prizesLeftElement = document.getElementById('prizesLeft');
+        const spinsCompletedElement = document.getElementById('spinsCompleted');
+        const giveawaysCompletedElement = document.getElementById('giveawaysCompleted');
+        const adminToggle = document.getElementById('adminToggle');
+        const adminPanelOverlay = document.getElementById('adminPanelOverlay');
+        const closeAdmin = document.getElementById('closeAdmin');
+        const applyConfig = document.getElementById('applyConfig');
+        const resetGame = document.getElementById('resetGame');
+        const exportCSV = document.getElementById('exportCSV');
+        const segmentConfig = document.getElementById('segmentConfig');
+        const passcodeDialog = document.getElementById('passcodeDialog');
+        const passcodeInput = document.getElementById('passcodeInput');
+        const passcodeSubmit = document.getElementById('passcodeSubmit');
+        const passcodeCancel = document.getElementById('passcodeCancel');
+        const confirmationDialog = document.getElementById('confirmationDialog');
+        const dialogTitle = document.getElementById('dialogTitle');
+        const dialogMessage = document.getElementById('dialogMessage');
+        const dialogCancel = document.getElementById('dialogCancel');
+        const dialogConfirm = document.getElementById('dialogConfirm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        // Initialize the wheel with current config
+        function initializeWheel() {
+            wheel.innerHTML = '';
+            createWheelSegments();
+            updateTextElements();
+            updateStats();
+            updateSpinButton();
+            updateSegmentConfigInputs();
+            
+            // Reset wheel rotation to 0
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(0deg)';
+            // Force reflow
+            wheel.offsetHeight;
+            wheel.style.transition = '';
+        }
+
+        // Create wheel segments with scattered placement and unique colors
+        function createWheelSegments() {
+            const segments = generateScatteredSegments();
+            const segmentAngle = 360 / segments.length;
+            
+            segments.forEach((segment, index) => {
+                const segmentElement = document.createElement('div');
+                segmentElement.className = 'segment';
+                
+                const rotation = index * segmentAngle;
+                segmentElement.style.transform = `rotate(${rotation}deg)`;
+                segmentElement.style.backgroundColor = segment.color;
+                
+                const content = document.createElement('div');
+                content.className = 'segment-content';
+                content.innerHTML = `
+                    <span class="segment-count">${segment.value}</span>
+                    <span class="segment-text">${segment.name}</span>
+                `;
+                
+                segmentElement.appendChild(content);
+                wheel.appendChild(segmentElement);
+            });
+        }
+
+        // Generate segments with scattered placement and unique colors
+        function generateScatteredSegments() {
+            // First create all segments based on weights
+            const allSegments = [];
+            config.segments.forEach((segment) => {
+                const weight = segment.weight || 1;
+                for (let i = 0; i < weight; i++) {
+                    allSegments.push({
+                        value: segment.value,
+                        name: segment.name
+                    });
+                }
+            });
+            
+            // Shuffle the segments to scatter them
+            shuffleArray(allSegments);
+            
+            // Assign unique colors to each segment
+            allSegments.forEach((segment, index) => {
+                segment.color = config.segmentColors[index % config.segmentColors.length];
+            });
+            
+            return allSegments;
+        }
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Update all text elements based on config
+        function updateTextElements() {
+            document.getElementById('mainTitle').textContent = config.mainTitle;
+            document.getElementById('subTitle').textContent = config.subTitle;
+            document.getElementById('wheelTitle').textContent = config.wheelTitle;
+            document.getElementById('resultTitle').textContent = config.resultTitle;
+            document.getElementById('prizesLabel').textContent = config.prizesLabel;
+            
+            // Update admin inputs
+            document.getElementById('mainTitleInput').value = config.mainTitle;
+            document.getElementById('subTitleInput').value = config.subTitle;
+            document.getElementById('wheelTitleInput').value = config.wheelTitle;
+            document.getElementById('resultTitleInput').value = config.resultTitle;
+            document.getElementById('prizesLabelInput').value = config.prizesLabel;
+            document.getElementById('prizeUnitInput').value = config.prizeUnit;
+            document.getElementById('totalPrizes').value = config.totalPrizes;
+        }
+
+        // Update segment configuration inputs
+        function updateSegmentConfigInputs() {
+            segmentConfig.innerHTML = '';
+            
+            config.segments.forEach((segment, index) => {
+                const segmentItem = document.createElement('div');
+                segmentItem.className = 'segment-config-item';
+                segmentItem.innerHTML = `
+                    <input type="number" value="${segment.value}" placeholder="Value" data-index="${index}" data-type="value">
+                    <input type="number" value="${segment.weight}" placeholder="Weight" data-index="${index}" data-type="weight">
+                    <input type="text" value="${segment.name}" placeholder="Name" data-index="${index}" data-type="name">
+                `;
+                segmentConfig.appendChild(segmentItem);
+            });
+        }
+
+        // Show passcode dialog
+        function showPasscodeDialog() {
+            passcodeInput.value = '';
+            passcodeDialog.classList.add('show');
+            passcodeInput.focus();
+        }
+
+        // Hide passcode dialog
+        function hidePasscodeDialog() {
+            passcodeDialog.classList.remove('show');
+        }
+
+        // Show admin panel overlay
+        function showAdminPanel() {
+            adminPanelOverlay.classList.add('show');
+        }
+
+        // Hide admin panel overlay
+        function hideAdminPanel() {
+            adminPanelOverlay.classList.remove('show');
+        }
+
+        // Check passcode
+        function checkPasscode() {
+            const enteredPasscode = passcodeInput.value;
+            if (enteredPasscode === config.adminPasscode) {
+                hidePasscodeDialog();
+                showAdminPanel();
+            } else {
+                alert("Incorrect passcode. Please try again.");
+                passcodeInput.value = '';
+                passcodeInput.focus();
+            }
+        }
+
+        // Show confirmation dialog
+        function showConfirmation(title, message, confirmCallback) {
+            dialogTitle.textContent = title;
+            dialogMessage.textContent = message;
+            confirmationDialog.classList.add('show');
+            
+            // Set up event listeners
+            const handleConfirm = () => {
+                confirmationDialog.classList.remove('show');
+                dialogConfirm.removeEventListener('click', handleConfirm);
+                dialogCancel.removeEventListener('click', handleCancel);
+                if (confirmCallback) confirmCallback();
+            };
+            
+            const handleCancel = () => {
+                confirmationDialog.classList.remove('show');
+                dialogConfirm.removeEventListener('click', handleConfirm);
+                dialogCancel.removeEventListener('click', handleCancel);
+            };
+            
+            dialogConfirm.addEventListener('click', handleConfirm);
+            dialogCancel.addEventListener('click', handleCancel);
+        }
+
+        // Show loading overlay
+        function showLoading(message = "Applying Changes...") {
+            loadingText.textContent = message;
+            loadingOverlay.classList.add('show');
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
+
+        // Spin the wheel
+        function spinWheel() {
+            if (!gameState.isGameActive) {
+                alert("Game over! Reset the game to continue.");
+                return;
+            }
+
+            spinButton.disabled = true;
+            result.classList.remove('show');
+            
+            // Add spinning effect
+            wheel.classList.add('spinning');
+            
+            const segments = generateScatteredSegments();
+            const segmentAngle = 360 / segments.length;
+            const randomSegment = Math.floor(Math.random() * segments.length);
+            
+            // Improved spinning physics for consistent behavior
+            const fullRotations = 5; // Minimum full rotations
+            const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+            const normalizedRotation = currentRotation % 360;
+            
+            // Calculate the target rotation to land on the selected segment
+            const targetSegmentCenter = (randomSegment * segmentAngle) + (segmentAngle / 2);
+            const rotationNeeded = 360 - targetSegmentCenter;
+            
+            // Add full rotations and ensure we always spin forward
+            const finalRotation = currentRotation + (fullRotations * 360) + rotationNeeded + (360 - normalizedRotation);
+            
+            // Apply spin animation
+            wheel.style.transform = `rotate(${finalRotation}deg)`;
+            
+            // Calculate spin duration
+            const spinDuration = 5000; // 5 seconds total
+            
+            setTimeout(() => {
+                const winningSegment = segments[randomSegment];
+                const prizeWon = winningSegment.value;
+                
+                // Remove spinning effect
+                wheel.classList.remove('spinning');
+                
+                // Record participant data
+                const participantName = document.getElementById('participantName').value || "Anonymous";
+                recordParticipant(participantName, prizeWon, winningSegment.name);
+                
+                // Smart supply management
+                if (prizeWon > gameState.prizesRemaining) {
+                    // Not enough prizes for this win, find the largest possible prize
+                    const availablePrizes = config.segments.map(s => s.value).filter(value => value <= gameState.prizesRemaining);
+                    if (availablePrizes.length > 0) {
+                        const adjustedPrize = Math.max(...availablePrizes);
+                        const adjustedSegment = config.segments.find(s => s.value === adjustedPrize);
+                        awardPrize(adjustedPrize, adjustedSegment.name, true);
+                    } else {
+                        // No prizes available, game over
+                        prizeText.innerHTML = `
+                            Game Over!<br>
+                            All prizes have been won!
+                        `;
+                        result.classList.add('show');
+                        endGame();
+                    }
+                } else {
+                    awardPrize(prizeWon, winningSegment.name, false);
+                }
+                
+                spinButton.disabled = false;
+                saveGameState(); // Save after each spin
+            }, spinDuration);
+        }
+
+        // Record participant data
+        function recordParticipant(name, prize, prizeName) {
+            const participant = {
+                id: gameState.participants.length + 1,
+                name: name,
+                prize: prize,
+                prizeName: prizeName,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            gameState.participants.push(participant);
+        }
+
+        // Award prize to winner
+        function awardPrize(prizeWon, prizeName, wasAdjusted) {
+            gameState.prizesRemaining -= prizeWon;
+            gameState.spinsCompleted++;
+            gameState.giveawaysCompleted++;
+            
+            let adjustmentText = wasAdjusted ? "<div style='font-size:0.7rem; margin-top:10px; color:rgba(255,255,255,0.7)'>Prize adjusted due to limited supply</div>" : "";
+            
+            // Special styling for big wins
+            let resultClass = '';
+            if (prizeWon >= 15) {
+                resultClass = 'win-mega';
+            } else if (prizeWon >= 10) {
+                resultClass = 'win-big';
+            } else if (prizeWon >= 5) {
+                resultClass = 'win-medium';
+            }
+            
+            prizeText.innerHTML = `
+                <span class="${resultClass}">
+                    ${prizeWon} <span class="prize-emoji">${getPrizeEmoji(prizeWon)}</span> ${config.prizeUnit}${prizeWon > 1 ? 'S' : ''}!
+                </span>
+                <div style="font-size: 0.9rem; margin-top: 10px; color: rgba(255,255,255,0.8)">
+                    ${prizeName}
+                </div>
+                ${adjustmentText}
+            `;
+            
+            result.classList.add('show');
+            celebrateWin(prizeWon);
+            updateStats();
+            updateSpinButton();
+            
+            if (gameState.prizesRemaining <= 0) {
+                endGame();
+            }
+        }
+
+        // Get appropriate emoji based on prize value
+        function getPrizeEmoji(prize) {
+            if (prize >= 15) return "🏆";
+            if (prize >= 10) return "⭐";
+            if (prize >= 5) return "🎁";
+            return "🎯";
+        }
+
+        // Update all stats
+        function updateStats() {
+            prizesLeftElement.textContent = gameState.prizesRemaining;
+            spinsCompletedElement.textContent = gameState.spinsCompleted;
+            giveawaysCompletedElement.textContent = gameState.giveawaysCompleted;
+        }
+
+        // Update spin button based on game state
+        function updateSpinButton() {
+            if (gameState.prizesRemaining <= 0) {
+                spinButton.disabled = true;
+                spinButton.textContent = "GIVEAWAY COMPLETE!";
+                spinButton.style.background = 'var(--success)';
+            } else if (gameState.prizesRemaining < 10) {
+                spinButton.textContent = `FINAL SPINS! (${gameState.prizesRemaining} left)`;
+            } else {
+                spinButton.textContent = "SPIN TO WIN!";
+            }
+        }
+
+        // End the game
+        function endGame() {
+            gameState.isGameActive = false;
+            spinButton.disabled = true;
+            spinButton.textContent = "GIVEAWAY COMPLETE!";
+            spinButton.style.background = 'var(--success)';
+            saveGameState();
+        }
+
+        // Celebration effect
+        function celebrateWin(count) {
+            if (count >= 15) {
+                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                setTimeout(() => {
+                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                }, 1500);
+            } else if (count >= 10) {
+                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                setTimeout(() => {
+                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                }, 1000);
+            } else if (count >= 5) {
+                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(46, 92, 138, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(46, 92, 138, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                setTimeout(() => {
+                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                }, 800);
+            }
+        }
+
+        // Apply configuration from admin panel
+        function applyConfiguration() {
+            showLoading("Applying Configuration...");
+            
+            // Simulate processing time for better UX
+            setTimeout(() => {
+                // Update text elements
+                config.mainTitle = document.getElementById('mainTitleInput').value || "ADLER'S TV";
+                config.subTitle = document.getElementById('subTitleInput').value || "Presents";
+                config.wheelTitle = document.getElementById('wheelTitleInput').value || "PRIZE BONANZA WHEEL";
+                config.resultTitle = document.getElementById('resultTitleInput').value || "CONGRATULATIONS!";
+                config.prizesLabel = document.getElementById('prizesLabelInput').value || "Prizes Left";
+                config.prizeUnit = document.getElementById('prizeUnitInput').value || "Noodles";
+                config.totalPrizes = parseInt(document.getElementById('totalPrizes').value) || 30;
+                
+                // Update segments
+                const segmentInputs = document.querySelectorAll('.segment-config-item input');
+                segmentInputs.forEach(input => {
+                    const index = parseInt(input.dataset.index);
+                    const type = input.dataset.type;
+                    
+                    if (config.segments[index]) {
+                        if (type === 'value') {
+                            config.segments[index].value = parseInt(input.value) || 1;
+                        } else if (type === 'weight') {
+                            config.segments[index].weight = parseInt(input.value) || 1;
+                        } else if (type === 'name') {
+                            config.segments[index].name = input.value || `Prize ${index + 1}`;
+                        }
+                    }
+                });
+                
+                resetGameState();
+                saveConfig(); // Save configuration
+                hideLoading();
+                alert('Configuration applied successfully!');
+            }, 1000);
+        }
+
+        // Reset game
+        function resetGameState() {
+            gameState.prizesRemaining = config.totalPrizes;
+            gameState.spinsCompleted = 0;
+            gameState.giveawaysCompleted = 0;
+            gameState.isGameActive = true;
+            gameState.participants = [];
+            
+            initializeWheel();
+            result.classList.remove('show');
+            spinButton.disabled = false;
+            spinButton.style.background = 'linear-gradient(135deg, var(--primary), var(--primary-dark))';
+            
+            // Clear participant name field
+            document.getElementById('participantName').value = '';
+            
+            saveGameState(); // Save after reset
+        }
+
+        // Export CSV
+        function exportToCSV() {
+            if (gameState.participants.length === 0) {
+                alert("No participant data to export!");
+                return;
+            }
+            
+            // Create CSV content
+            let csvContent = "ID,Name,Prize,Prize Name,Timestamp\n";
+            
+            gameState.participants.forEach(participant => {
+                csvContent += `${participant.id},"${participant.name}",${participant.prize},"${participant.prizeName}","${participant.timestamp}"\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `adlers_tv_participants_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize
+        initializeWheel();
+
+        // Event listeners
+        spinButton.addEventListener('click', spinWheel);
+        adminToggle.addEventListener('click', showPasscodeDialog);
+        passcodeSubmit.addEventListener('click', checkPasscode);
+        passcodeCancel.addEventListener('click', hidePasscodeDialog);
+        passcodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkPasscode();
+            }
+        });
+        closeAdmin.addEventListener('click', hideAdminPanel);
+        adminPanelOverlay.addEventListener('click', (e) => {
+            if (e.target === adminPanelOverlay) {
+                hideAdminPanel();
+            }
+        });
+        applyConfig.addEventListener('click', applyConfiguration);
+        resetGame.addEventListener('click', () => {
+            showConfirmation(
+                "Reset Game", 
+                "Are you sure you want to reset the game? This will clear all current progress and participant data.", 
+                resetGameState
+            );
+        });
+        exportCSV.addEventListener('click', exportToCSV);
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !spinButton.disabled && gameState.isGameActive) {
+                spinWheel();
+            }
+            if (e.code === 'Escape' && adminPanelOverlay.classList.contains('show')) {
+                hideAdminPanel();
+            }
+        });
+    </script>
 </body>
 </html>
