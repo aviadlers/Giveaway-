@@ -1,411 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adlers TV | Prize Bonanza Wheel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adlers TV | Prize Wheel</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
-    }
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    font-family: Poppins, sans-serif;
+    color: white;
+    text-align: center;
+}
 
-    h1 {
-      margin-top: 20px;
-      color: #f6a623;
-      font-size: 2.4rem;
-      text-shadow: 0 0 15px #f6a623;
-    }
+h1 {
+    margin-top: 25px;
+    font-size: 30px;
+}
 
-    .wheel-container {
-      margin: 40px auto;
-      position: relative;
-      width: 320px;
-      height: 320px;
-    }
+#wheelContainer {
+    margin: 40px auto;
+    width: 350px;
+    height: 350px;
+    position: relative;
+}
 
-    /* Glowing animated wheel border */
-    .wheel-glow {
-      position: absolute;
-      top: -15px;
-      left: -15px;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      background: radial-gradient(#f6a623, transparent 70%);
-      filter: blur(30px);
-      animation: glowPulse 3s infinite alternate;
-      z-index: -1;
-    }
+#wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid gold;
+    box-shadow: 0 0 20px gold;
+    overflow: hidden;
+    position: relative;
+}
 
-    @keyframes glowPulse {
-      0% { opacity: 0.35; }
-      100% { opacity: 0.8; }
-    }
+.segment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    transform-origin: 0% 0%;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    #wheel {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 10px solid #f6a623;
-      position: relative;
-      transition: transform 4s ease-out;
-      overflow: hidden;
-    }
+.segment span {
+    writing-mode: vertical-rl;
+    font-size: 13px;
+    font-weight: 700;
+}
 
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      background: rgba(255,255,255,0.08);
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      border-left: 2px solid #f6a623;
-    }
+#pointer {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 35px solid red;
+    margin: 0 auto;
+}
 
-    /* Vertical text */
-    .segment span {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      position: absolute;
-      top: 10px;
-      right: -45px;
-    }
+#spinBtn {
+    padding: 12px 25px;
+    margin-top: 25px;
+    background: gold;
+    color: black;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-    /* Fire glowing pointer */
-    #pointer {
-      width: 0; 
-      height: 0; 
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 25px solid #ff2e2e;
-      margin: 0 auto;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 0 8px red);
-      animation: pointerPulse 1.5s infinite alternate;
-    }
+#spinBtn:hover {
+    box-shadow: 0 0 15px gold;
+}
 
-    @keyframes pointerPulse {
-      0% { filter: drop-shadow(0 0 6px red); }
-      100% { filter: drop-shadow(0 0 16px #ff4a4a); }
-    }
+#adminBtn {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background: #333;
+    color: white;
+    border: 1px solid gold;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-    #spin-btn {
-      background: #f6a623;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #000;
-      margin-top: 20px;
-      box-shadow: 0 0 15px #f6a623;
-      transition: 0.2s;
-    }
+/* POPUP */
+#popup {
+    display: none;
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+}
 
-    #spin-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 30px #ffcc66;
-    }
+#popupBox {
+    background: #222;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px gold;
+}
 
-    /* Popup Winner Box */
-    #overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-    }
+/* ADMIN PANEL */
+#adminPanel {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.8);
+    padding-top: 40px;
+}
 
-    #result-popup {
-      position: fixed;
-      background: #222;
-      padding: 25px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 320px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
-      border: 3px solid gold;
-      box-shadow: 0 0 20px gold;
-      animation: popupShow 0.4s ease-out;
-    }
+textarea {
+    width: 80%;
+    max-width: 350px;
+    height: 150px;
+}
 
-    @keyframes popupShow {
-      from { opacity: 0; transform: translate(-50%, -60%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
-    }
+#adminBox {
+    background: #222;
+    padding: 20px;
+    margin: auto;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 20px gold;
+}
 
-    #result-popup button {
-      background: gold;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    /* History + Admin Panel */
-    .panel {
-      margin-top: 40px;
-      padding: 20px;
-      background: #1a1a1a;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 450px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 15px;
-      border-collapse: collapse;
-    }
-
-    td, th {
-      padding: 10px;
-      border-bottom: 1px solid #333;
-    }
-
-    .admin-btn {
-      background: #444;
-      padding: 8px 15px;
-      border-radius: 5px;
-      border: 1px solid #777;
-      color: white;
-      cursor: pointer;
-      margin: 5px;
-    }
-
-    .admin-btn:hover {
-      background: #666;
-    }
-
-    input {
-      width: 85%;
-      padding: 8px;
-      margin-top: 8px;
-      border-radius: 5px;
-      border: 1px solid #777;
-      background: #222;
-      color: white;
-    }
-  </style>
+#passwordInput {
+    width: 80%;
+    max-width: 300px;
+    padding: 12px;
+}
+</style>
 </head>
-
 <body>
 
-  <h1>Adlers TV Prize Bonanza Wheel</h1>
+<h1>🎡 Adlers TV Prize Wheel</h1>
 
-  <div id="pointer"></div>
+<div id="pointer"></div>
+<div id="wheelContainer"><div id="wheel"></div></div>
 
-  <div class="wheel-container">
-    <div class="wheel-glow"></div>
-    <div id="wheel"></div>
-  </div>
+<button id="spinBtn">SPIN</button>
+<br>
+<button id="adminBtn">Admin Panel</button>
 
-  <button id="spin-btn">SPIN</button>
+<!-- POPUP -->
+<div id="popup">
+    <div id="popupBox">
+        <h2 id="prizeText"></h2>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
 
-  <!-- Result Popup -->
-  <div id="overlay"></div>
-  <div id="result-popup">
-    <h2>🎉 Congratulations! 🎉</h2>
-    <p>You won:</p>
-    <h1 id="popup-prize" style="color: gold; text-shadow: 0 0 12px gold;"></h1>
-    <button id="close-popup">OK</button>
-  </div>
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+    <div id="adminBox">
 
-  <!-- HISTORY -->
-  <div class="panel">
-    <h2>Spin History</h2>
-    <table id="results-table">
-      <tbody></tbody>
-    </table>
-    <button class="admin-btn" id="export-btn">Download CSV</button>
-    <button class="admin-btn" id="clear-results-btn">Clear Results</button>
-  </div>
+        <div id="loginArea">
+            <h2>Admin Login</h2>
+            <input type="password" id="passwordInput" placeholder="Enter Password">
+            <br><br>
+            <button onclick="checkPassword()">Login</button>
+        </div>
 
-  <!-- ADMIN PANEL -->
-  <div class="panel">
-    <h2>Admin: Prize Control</h2>
+        <div id="editArea" style="display:none;">
+            <h2>Edit Prizes (One per line)</h2>
+            <textarea id="prizeBox"></textarea>
+            <br><br>
+            <button onclick="savePrizes()">SAVE</button>
+            <button onclick="closeAdmin()">CLOSE</button>
+        </div>
 
-    <ul id="prize-list"></ul>
+    </div>
+</div>
 
-    <input id="new-prize-input" placeholder="Enter new prize..." />
-    <button class="admin-btn" id="save-prize-btn">Add Prize</button>
-    <button class="admin-btn" id="clear-prizes-btn">Delete All Prizes</button>
-  </div>
+<!-- CONFETTI -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- CONFETTI LIBRARY -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+// --------------------
+// DEFAULT OR SAVED PRIZES
+// --------------------
+let prizes = JSON.parse(localStorage.getItem("prizes")) || ["100", "200", "50", "Try Again"];
 
-  <script>
-  /* -------------------------------
-     AUDIO
-  --------------------------------*/
-  const spinSound = new Audio("spin.mp3");
-  const tickSound = new Audio("tick.mp3");
-  const winSound = new Audio("win.mp3");
-
-  /* ------------------------------- */
-  const wheel = document.getElementById("wheel");
-  const pointer = document.getElementById("pointer");
-  const spinBtn = document.getElementById("spin-btn");
-  const prizeListEl = document.getElementById("prize-list");
-  const resultsTable = document.querySelector("#results-table tbody");
-
-  let prizes = [
-    "500 ZMW", "200 ZMW", "Try Again", "Free Spin",
-    "100 ZMW", "Gift Hamper", "50 ZMW", "Mystery Box"
-  ];
-
-  let spinHistory = [];
-  let spinning = false;
-  let currentRotation = 0;
-
-  /* DRAW WHEEL */
-  function drawWheel() {
+// --------------------
+// DRAW WHEEL
+// --------------------
+function drawWheel() {
+    const wheel = document.getElementById("wheel");
     wheel.innerHTML = "";
-    const num = prizes.length;
-    const angle = 360 / num;
+    const angle = 360 / prizes.length;
 
-    prizes.forEach((prize, i) => {
-      const seg = document.createElement("div");
-      seg.className = "segment";
-      seg.style.transform = `rotate(${i * angle}deg)`;
-      seg.innerHTML = `<span>${prize}</span>`;
-      wheel.appendChild(seg);
+    prizes.forEach((p, i) => {
+        let seg = document.createElement("div");
+        seg.className = "segment";
+
+        seg.style.background = "#" + Math.floor(Math.random()*16777215).toString(16);
+        seg.style.transform = `rotate(${i * angle}deg) skewY(${90 - angle}deg)`;
+
+        let text = document.createElement("span");
+        text.innerText = p;
+
+        seg.appendChild(text);
+        wheel.appendChild(seg);
     });
-  }
-  drawWheel();
+}
 
-  /* SPIN */
-  function spinWheel() {
-    if (spinning || prizes.length === 0) return;
+drawWheel();
+
+// --------------------
+// SPIN
+// --------------------
+let spinning = false;
+let rotation = 0;
+
+document.getElementById("spinBtn").onclick = function() {
+    if (spinning) return;
     spinning = true;
 
-    spinSound.currentTime = 0;
-    spinSound.play();
+    const wheel = document.getElementById("wheel");
+    const angle = 360 / prizes.length;
+    const landing = Math.floor(Math.random() * prizes.length);
 
-    const num = prizes.length;
-    const anglePerSlice = 360 / num;
+    const fullTurns = 360 * (5 + Math.random() * 5);
+    rotation += fullTurns + (360 - landing * angle);
 
-    const winningIndex = Math.floor(Math.random() * num);
-    const winningAngle = winningIndex * anglePerSlice;
-
-    const extraSpins = 360 * 6;
-    const finalRotation = extraSpins + (360 - winningAngle) - anglePerSlice / 2;
-
-    currentRotation = finalRotation;
-
-    wheel.style.transition = "transform 4s ease-out";
-    wheel.style.transform = `rotate(${finalRotation}deg)`;
-
-    /* Tick sound effect during spin */
-    let tickInterval = setInterval(() => {
-      tickSound.currentTime = 0;
-      tickSound.play();
-    }, 180);
-
-    setTimeout(() => clearInterval(tickInterval), 3800);
+    wheel.style.transition = "6s ease-out";
+    wheel.style.transform = `rotate(${rotation}deg)`;
 
     setTimeout(() => {
-      const result = prizes[winningIndex];
-      spinning = false;
+        showPrize(prizes[landing]);
 
-      winSound.currentTime = 0;
-      winSound.play();
+        confetti({
+            particleCount: 120,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
 
-      confetti({ particleCount: 130, spread: 70, origin: { y: 0.7 } });
+        spinning = false;
+    }, 6000);
+};
 
-      showPopup(result);
-      saveResult(result);
-    }, 4100);
-  }
+function showPrize(p) {
+    document.getElementById("prizeText").innerText = "You Won: " + p;
+    document.getElementById("popup").style.display = "flex";
+}
 
-  spinBtn.addEventListener("click", spinWheel);
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
 
-  /* POPUP */
-  function showPopup(result) {
-    document.getElementById("popup-prize").textContent = result;
-    document.getElementById("overlay").style.display = "block";
-    document.getElementById("result-popup").style.display = "block";
-  }
+// --------------------
+// ADMIN
+// --------------------
+document.getElementById("adminBtn").onclick = function() {
+    document.getElementById("adminPanel").style.display = "block";
+};
 
-  document.getElementById("close-popup").onclick = () => {
-    document.getElementById("overlay").style.display = "none";
-    document.getElementById("result-popup").style.display = "none";
-  };
+function closeAdmin() {
+    document.getElementById("adminPanel").style.display = "none";
+}
 
-  /* SAVE RESULT */
-  function saveResult(result) {
-    spinHistory.push(result);
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${spinHistory.length}</td><td>${result}</td>`;
-    resultsTable.appendChild(row);
-  }
+const ADMIN_PASSWORD = "adlers123";
 
-  /* EXPORT CSV */
-  document.getElementById("export-btn").onclick = () => {
-    let csv = "Spin Number,Prize\n";
-    spinHistory.forEach((p, i) => csv += `${i + 1},${p}\n`);
+function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    if (input === ADMIN_PASSWORD) {
+        document.getElementById("loginArea").style.display = "none";
+        document.getElementById("editArea").style.display = "block";
 
-    const blob = new Blob([csv], { type: "text/csv" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "Adlers_Wheel_Results.csv";
-    a.click();
-  };
-
-  /* ADMIN FUNCTIONS */
-  document.getElementById("save-prize-btn").onclick = () => {
-    const p = document.getElementById("new-prize-input").value.trim();
-    if (!p) return alert("Enter a prize");
-    prizes.push(p);
-    updatePrizeList();
-    drawWheel();
-  };
-
-  document.getElementById("clear-prizes-btn").onclick = () => {
-    if (confirm("Remove ALL prizes?")) {
-      prizes = [];
-      updatePrizeList();
-      drawWheel();
+        document.getElementById("prizeBox").value = prizes.join("\n");
+    } else {
+        alert("Incorrect Password!");
     }
-  };
+}
 
-  document.getElementById("clear-results-btn").onclick = () => {
-    spinHistory = [];
-    resultsTable.innerHTML = "";
-  };
+function savePrizes() {
+    const lines = document.getElementById("prizeBox").value
+        .split("\n")
+        .map(x => x.trim())
+        .filter(x => x !== "");
 
-  function updatePrizeList() {
-    prizeListEl.innerHTML = "";
-    prizes.forEach(p => {
-      const li = document.createElement("li");
-      li.textContent = p;
-      prizeListEl.appendChild(li);
-    });
-  }
+    prizes = lines;
+    localStorage.setItem("prizes", JSON.stringify(prizes));
 
-  updatePrizeList();
-  </script>
+    drawWheel();
+
+    alert("Saved!");
+}
+</script>
 
 </body>
 </html>
