@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adler's TV | Prize Wheel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary: #C47E2C; /* Adler's TV Golden-Brown */
-            --primary-light: #D89A4E;
-            --primary-dark: #A8661A;
-            --secondary: #2E5C8A;
-            --accent: #E8B954;
-            --dark: #1A1A1A;
+            --primary: #FF6B35;
+            --primary-light: #FF8E53;
+            --primary-dark: #E05A2B;
+            --secondary: #2E86AB;
+            --accent: #F9C80E;
+            --dark: #1A1A2E;
             --light: #FFFFFF;
             --gray: #F5F5F5;
             --success: #4CAF50;
             --warning: #FF9800;
-            --danger: #D32F2F;
+            --danger: #F44336;
         }
 
         * {
@@ -29,7 +28,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--dark), #2A2A2A);
+            background: linear-gradient(135deg, var(--dark), #16213E);
             color: var(--light);
             min-height: 100vh;
             display: flex;
@@ -52,7 +51,7 @@
         }
 
         .logo {
-            font-size: 3.2rem;
+            font-size: 3.2rem; /* Increased for better stream visibility */
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
@@ -62,16 +61,16 @@
         }
 
         .subtitle {
-            font-size: 1.3rem;
-            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem; /* Slightly larger */
+            color: rgba(255,255,255,0.9); /* Better contrast */
             font-weight: 400;
             margin-bottom: 10px;
         }
 
         .tagline {
-            font-size: 1rem;
+            font-size: 1rem; /* Slightly larger */
             color: var(--accent);
-            background: rgba(232, 185, 84, 0.15);
+            background: rgba(249, 200, 14, 0.15); /* More visible */
             padding: 8px 20px;
             border-radius: 20px;
             display: inline-block;
@@ -80,11 +79,11 @@
 
         .wheel-container {
             position: relative;
-            width: 340px;
+            width: 340px; /* Slightly larger */
             height: 340px;
-            margin: 0 auto 40px;
+            margin: 0 auto 40px; /* More margin for prominence */
             perspective: 1000px;
-            transform: scale(1.1);
+            transform: scale(1.1); /* Make wheel more prominent */
         }
 
         .wheel {
@@ -93,13 +92,13 @@
             border-radius: 50%;
             position: relative;
             overflow: hidden;
-            border: 15px solid var(--primary);
-            transition: transform 5s cubic-bezier(0.2, 0.8, 0.3, 1);
+            border: 15px solid var(--primary); /* Thicker border */
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
             transform: rotate(0deg);
             box-shadow: 
-                0 0 0 3px rgba(255,255,255,0.15),
+                0 0 0 3px rgba(255,255,255,0.15), /* Enhanced glow */
                 0 15px 40px rgba(0,0,0,0.5),
-                0 0 60px rgba(196, 126, 44, 0.4);
+                0 0 60px rgba(255,107,53,0.4);
             background: rgba(0,0,0,0.2);
         }
 
@@ -120,7 +119,7 @@
             box-shadow: 
                 0 0 0 3px rgba(255,255,255,0.2),
                 0 15px 40px rgba(0,0,0,0.5),
-                0 0 80px rgba(196, 126, 44, 0.7);
+                0 0 80px rgba(255,107,53,0.7);
             animation: wheelGlow 1.5s infinite alternate;
         }
 
@@ -134,54 +133,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 1.3rem;
+            font-weight: 800; /* Bolder text */
+            font-size: 1.3rem; /* Larger text */
             color: white;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8); /* Better contrast */
             clip-path: polygon(0 0, 100% 0, 100% 100%);
-        }
-
-        /* Add segment dividers */
-        .segment::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 2px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            transform-origin: bottom right;
         }
 
         .segment-content {
             transform: rotate(45deg);
             text-align: center;
-            width: 90px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 90px; /* Slightly wider for better text fit */
         }
 
         .segment-count {
-            font-size: 2rem;
-            font-weight: 900;
+            font-size: 2rem; /* Larger numbers */
+            font-weight: 900; /* Bolder numbers */
             display: block;
             line-height: 1;
-            margin-bottom: 5px;
         }
 
         .segment-text {
-            font-size: 0.7rem;
+            font-size: 0.7rem; /* Slightly larger */
             display: block;
-            opacity: 0.95;
+            opacity: 0.95; /* Better visibility */
             margin-top: 3px;
             font-weight: 700;
         }
 
         .pointer-container {
             position: absolute;
-            top: -30px;
+            top: -30px; /* Adjusted for larger wheel */
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
@@ -189,7 +171,7 @@
         }
 
         .pointer {
-            width: 50px;
+            width: 50px; /* Larger pointer */
             height: 50px;
             background: var(--primary);
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
@@ -216,12 +198,12 @@
             color: white;
             border: none;
             padding: 18px 50px;
-            font-size: 1.4rem;
+            font-size: 1.4rem; /* Slightly larger */
             font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(196, 126, 44, 0.5);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -239,7 +221,7 @@
 
         .spin-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(196, 126, 44, 0.7);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.7);
         }
 
         .spin-button:hover::before {
@@ -273,11 +255,11 @@
         }
 
         .result {
-            padding: 30px;
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
+            padding: 30px; /* More padding */
+            background: rgba(255,255,255,0.12); /* Slightly more opaque */
+            backdrop-filter: blur(15px); /* More blur for glass effect */
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.25); /* More visible border */
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             display: none;
             transform-style: preserve-3d;
@@ -289,29 +271,29 @@
         }
 
         .result-title {
-            font-weight: 700;
+            font-weight: 700; /* Bolder */
             color: var(--accent);
-            margin-bottom: 20px;
-            font-size: 1.4rem;
+            margin-bottom: 20px; /* More spacing */
+            font-size: 1.4rem; /* Larger */
         }
 
         .result-prize {
-            font-size: 3.2rem;
-            font-weight: 900;
+            font-size: 3.2rem; /* Larger for stream visibility */
+            font-weight: 900; /* Bolder */
             color: white;
             text-shadow: 0 3px 15px rgba(0,0,0,0.4);
             padding: 10px;
         }
 
         .prize-emoji {
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* Larger emoji */
             margin: 0 12px;
             filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4));
         }
 
         .win-mega { 
             color: var(--accent);
-            text-shadow: 0 0 20px rgba(232, 185, 84, 0.7);
+            text-shadow: 0 0 20px rgba(249, 200, 14, 0.7);
             animation: pulse 1s infinite, glow 2s infinite alternate;
         }
         .win-big { 
@@ -320,23 +302,23 @@
             animation: pulse 1.5s infinite;
         }
         .win-medium { 
-            color: #2E5C8A;
-            text-shadow: 0 0 10px rgba(46, 92, 138, 0.4);
+            color: #2196F3;
+            text-shadow: 0 0 10px rgba(33, 150, 243, 0.4);
         }
 
         .stats {
             display: flex;
             justify-content: space-between;
-            margin-top: 25px;
+            margin-top: 25px; /* More spacing */
             margin-bottom: 30px;
         }
 
         .stat-box {
-            background: rgba(255,255,255,0.1);
-            padding: 18px;
+            background: rgba(255,255,255,0.1); /* More visible */
+            padding: 18px; /* More padding */
             border-radius: 15px;
             flex: 1;
-            margin: 0 6px;
+            margin: 0 6px; /* Slightly more margin */
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.15);
             transition: transform 0.3s ease;
@@ -347,15 +329,15 @@
         }
 
         .stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
+            font-size: 2.2rem; /* Larger for stream visibility */
+            font-weight: 800; /* Bolder */
             color: var(--primary);
             line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem; /* Slightly larger */
+            color: rgba(255,255,255,0.8); /* Better contrast */
             margin-top: 8px;
             font-weight: 600;
         }
@@ -379,6 +361,152 @@
             transform: translateY(-2px);
         }
 
+        .admin-panel {
+            margin-top: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            text-align: left;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .admin-panel.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        .panel-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent);
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        .panel-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-light);
+            font-size: 1.1rem;
+        }
+
+        .config-group {
+            margin: 15px 0;
+        }
+
+        .config-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .config-group input, .config-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.25);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .config-group input:focus, .config-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255,107,53,0.3);
+            outline: none;
+        }
+
+        .config-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .config-group small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .config-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .config-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .apply-button {
+            background: var(--success);
+            color: white;
+        }
+
+        .reset-button {
+            background: var(--primary);
+            color: white;
+        }
+
+        .export-button {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .segment-config {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .segment-config-item {
+            background: rgba(0,0,0,0.25);
+            padding: 12px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .segment-config-item:hover {
+            transform: translateY(-2px);
+            background: rgba(0,0,0,0.3);
+        }
+
+        .segment-config-item input {
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            text-align: center;
+        }
+
         .confirmation-dialog {
             display: none;
             position: fixed;
@@ -399,7 +527,7 @@
         }
 
         .dialog-content {
-            background: rgba(30,30,30,0.95);
+            background: rgba(30,30,46,0.95);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
@@ -484,17 +612,6 @@
             font-size: 1.1rem;
         }
 
-        /* Confetti canvas */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-        }
-
         /* Enhanced Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -506,9 +623,14 @@
             100% { transform: rotateX(0); opacity: 1; }
         }
 
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes wheelGlow {
-            from { box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 15px 40px rgba(0,0,0,0.5), 0 0 60px rgba(196, 126, 44, 0.4); }
-            to { box-shadow: 0 0 0 3px rgba(255,255,255,0.25), 0 15px 40px rgba(0,0,0,0.5), 0 0 90px rgba(196, 126, 44, 0.8); }
+            from { box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 15px 40px rgba(0,0,0,0.5), 0 0 60px rgba(255,107,53,0.4); }
+            to { box-shadow: 0 0 0 3px rgba(255,255,255,0.25), 0 15px 40px rgba(0,0,0,0.5), 0 0 90px rgba(255,107,53,0.8); }
         }
 
         @keyframes pulse {
@@ -518,8 +640,8 @@
         }
 
         @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(232, 185, 84, 0.7); }
-            to { text-shadow: 0 0 30px rgba(232, 185, 84, 1), 0 0 40px rgba(232, 185, 84, 0.5); }
+            from { text-shadow: 0 0 20px rgba(249, 200, 14, 0.7); }
+            to { text-shadow: 0 0 30px rgba(249, 200, 14, 1), 0 0 40px rgba(249, 200, 14, 0.5); }
         }
 
         @keyframes spin {
@@ -551,13 +673,18 @@
             .stat-box {
                 margin: 0;
             }
+            
+            .segment-config {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Confetti Canvas -->
-    <canvas id="confetti-canvas"></canvas>
-    
     <div class="container">
         <div class="header">
             <div class="logo" id="mainTitle">ADLER'S TV</div>
@@ -604,6 +731,73 @@
 
         <button class="admin-toggle" id="adminToggle">⚙️ Admin Settings</button>
 
+        <div class="admin-panel" id="adminPanel">
+            <div class="panel-title">Wheel Configuration</div>
+            
+            <div class="panel-section">
+                <div class="section-title">Branding & Text</div>
+                <div class="config-group">
+                    <label>Main Title:</label>
+                    <input type="text" id="mainTitleInput" value="ADLER'S TV">
+                </div>
+
+                <div class="config-group">
+                    <label>Subtitle:</label>
+                    <input type="text" id="subTitleInput" value="Presents">
+                </div>
+
+                <div class="config-group">
+                    <label>Wheel Title:</label>
+                    <input type="text" id="wheelTitleInput" value="PRIZE BONANZA WHEEL">
+                </div>
+
+                <div class="config-group">
+                    <label>Result Title:</label>
+                    <input type="text" id="resultTitleInput" value="CONGRATULATIONS!">
+                </div>
+
+                <div class="config-group">
+                    <label>Prizes Label:</label>
+                    <input type="text" id="prizesLabelInput" value="Prizes Left">
+                </div>
+
+                <div class="config-group">
+                    <label>Prize Unit Name:</label>
+                    <input type="text" id="prizeUnitInput" value="Noodles">
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="section-title">Game Settings</div>
+                <div class="config-group">
+                    <label>Total Prizes Available:</label>
+                    <input type="number" id="totalPrizes" value="30" min="1">
+                </div>
+
+                <div class="config-group">
+                    <label>Segment Configuration:</label>
+                    <div class="segment-config" id="segmentConfig">
+                        <!-- Segment inputs will be generated by JavaScript -->
+                    </div>
+                    <small>Format: Value, Weight, Display Name</small>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="section-title">Participant Tracking</div>
+                <div class="config-group">
+                    <label>Participant Name (Optional):</label>
+                    <input type="text" id="participantName" placeholder="Enter participant name for record keeping">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="config-button apply-button" id="applyConfig">Apply Changes</button>
+                <button class="config-button reset-button" id="resetGame">Reset Game</button>
+                <button class="config-button export-button" id="exportCSV">Export CSV</button>
+            </div>
+        </div>
+
         <!-- Confirmation Dialog -->
         <div class="confirmation-dialog" id="confirmationDialog">
             <div class="dialog-content">
@@ -623,20 +817,9 @@
         </div>
     </div>
 
-    <!-- Audio Elements for Sound Effects -->
-    <audio id="spinSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-spinning-wheel-1088.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="winSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="confettiSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-party-horn-618.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        // Default configuration with Adler's TV brand colors
-        const defaultConfig = {
+        // Configuration with enhanced customization
+        let config = {
             mainTitle: "ADLER'S TV",
             subTitle: "Presents",
             wheelTitle: "PRIZE BONANZA WHEEL",
@@ -645,76 +828,29 @@
             prizeUnit: "Noodles",
             totalPrizes: 30,
             segments: [
-                { value: 20, weight: 1, name: "Mega Win" },
-                { value: 15, weight: 1, name: "Big Win" },
-                { value: 10, weight: 1, name: "Great Win" },
-                { value: 5, weight: 2, name: "Good Win" },
-                { value: 4, weight: 2, name: "Nice Win" },
-                { value: 3, weight: 3, name: "Small Win" },
-                { value: 2, weight: 4, name: "Frequent Win" },
-                { value: 1, weight: 5, name: "Common Win" }
+                { value: 20, weight: 1, name: "Mega Win", color: "#FF6B35" },
+                { value: 15, weight: 1, name: "Big Win", color: "#F7931E" },
+                { value: 10, weight: 1, name: "Great Win", color: "#2E86AB" },
+                { value: 5, weight: 2, name: "Good Win", color: "#A23B72" },
+                { value: 4, weight: 2, name: "Nice Win", color: "#F18F01" },
+                { value: 3, weight: 3, name: "Small Win", color: "#C73E1D" },
+                { value: 2, weight: 4, name: "Frequent Win", color: "#3BB273" },
+                { value: 1, weight: 5, name: "Common Win", color: "#7768AE" }
             ],
-            // Expanded color palette for more variety
-            segmentColors: [
-                '#C47E2C', '#D89A4E', '#2E5C8A', '#A8661A',
-                '#E8B954', '#8B5A2B', '#4A752C', '#6B8C9E',
-                '#9C27B0', '#2196F3', '#FF9800', '#4CAF50',
-                '#F44336', '#795548', '#607D8B', '#FF5722',
-                '#673AB7', '#009688', '#FFC107', '#CDDC39'
-            ],
-            adminPasscode: "1234" // Simple passcode for admin access
+            extraColors: [
+                '#FF9999', '#66B3FF', '#99FF99', '#FFD700',
+                '#C9A0DC', '#FF6B6B', '#4ECDC4', '#45B7D1'
+            ]
         };
 
-        // Default game state
-        const defaultGameState = {
-            prizesRemaining: defaultConfig.totalPrizes,
+        // Game state
+        let gameState = {
+            prizesRemaining: config.totalPrizes,
             spinsCompleted: 0,
             giveawaysCompleted: 0,
             isGameActive: true,
-            participants: []
+            participants: [] // Store participant data for CSV export
         };
-
-        // Load configuration and game state from localStorage
-        let config = JSON.parse(JSON.stringify(defaultConfig));
-        let gameState = JSON.parse(JSON.stringify(defaultGameState));
-
-        // Try to load from localStorage
-        try {
-            const savedConfig = localStorage.getItem('adlersTVWheelConfig');
-            const savedGameState = localStorage.getItem('adlersTVWheelGameState');
-            
-            if (savedConfig) {
-                const parsedConfig = JSON.parse(savedConfig);
-                // Merge with default to ensure all properties exist
-                config = { ...defaultConfig, ...parsedConfig };
-            }
-            
-            if (savedGameState) {
-                const parsedGameState = JSON.parse(savedGameState);
-                // Merge with default to ensure all properties exist
-                gameState = { ...defaultGameState, ...parsedGameState };
-            }
-        } catch (e) {
-            console.error("Error loading from localStorage:", e);
-            // Use defaults if there's an error
-        }
-
-        // Save functions
-        function saveConfig() {
-            try {
-                localStorage.setItem('adlersTVWheelConfig', JSON.stringify(config));
-            } catch (e) {
-                console.error("Error saving config to localStorage:", e);
-            }
-        }
-
-        function saveGameState() {
-            try {
-                localStorage.setItem('adlersTVWheelGameState', JSON.stringify(gameState));
-            } catch (e) {
-                console.error("Error saving game state to localStorage:", e);
-            }
-        }
 
         // DOM elements
         const wheel = document.getElementById('wheel');
@@ -725,6 +861,11 @@
         const spinsCompletedElement = document.getElementById('spinsCompleted');
         const giveawaysCompletedElement = document.getElementById('giveawaysCompleted');
         const adminToggle = document.getElementById('adminToggle');
+        const adminPanel = document.getElementById('adminPanel');
+        const applyConfig = document.getElementById('applyConfig');
+        const resetGame = document.getElementById('resetGame');
+        const exportCSV = document.getElementById('exportCSV');
+        const segmentConfig = document.getElementById('segmentConfig');
         const confirmationDialog = document.getElementById('confirmationDialog');
         const dialogTitle = document.getElementById('dialogTitle');
         const dialogMessage = document.getElementById('dialogMessage');
@@ -732,11 +873,6 @@
         const dialogConfirm = document.getElementById('dialogConfirm');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingText');
-        
-        // Audio elements
-        const spinSound = document.getElementById('spinSound');
-        const winSound = document.getElementById('winSound');
-        const confettiSound = document.getElementById('confettiSound');
 
         // Initialize the wheel with current config
         function initializeWheel() {
@@ -745,18 +881,12 @@
             updateTextElements();
             updateStats();
             updateSpinButton();
-            
-            // Reset wheel rotation to 0
-            wheel.style.transition = 'none';
-            wheel.style.transform = 'rotate(0deg)';
-            // Force reflow
-            wheel.offsetHeight;
-            wheel.style.transition = '';
+            updateSegmentConfigInputs();
         }
 
-        // Create wheel segments with scattered placement and unique colors
+        // Create wheel segments
         function createWheelSegments() {
-            const segments = generateScatteredSegments();
+            const segments = generateSegments();
             const segmentAngle = 360 / segments.length;
             
             segments.forEach((segment, index) => {
@@ -779,38 +909,20 @@
             });
         }
 
-        // Generate segments with scattered placement and unique colors
-        function generateScatteredSegments() {
-            // First create all segments based on weights
-            const allSegments = [];
-            config.segments.forEach((segment) => {
+        // Generate segments based on weights
+        function generateSegments() {
+            const segments = [];
+            config.segments.forEach((segment, index) => {
                 const weight = segment.weight || 1;
                 for (let i = 0; i < weight; i++) {
-                    allSegments.push({
+                    segments.push({
                         value: segment.value,
-                        name: segment.name
+                        name: segment.name,
+                        color: segment.color || config.extraColors[segments.length % config.extraColors.length]
                     });
                 }
             });
-            
-            // Shuffle the segments to scatter them
-            shuffleArray(allSegments);
-            
-            // Assign unique colors to each segment
-            allSegments.forEach((segment, index) => {
-                segment.color = config.segmentColors[index % config.segmentColors.length];
-            });
-            
-            return allSegments;
-        }
-
-        // Fisher-Yates shuffle algorithm
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
+            return segments;
         }
 
         // Update all text elements based on config
@@ -820,6 +932,31 @@
             document.getElementById('wheelTitle').textContent = config.wheelTitle;
             document.getElementById('resultTitle').textContent = config.resultTitle;
             document.getElementById('prizesLabel').textContent = config.prizesLabel;
+            
+            // Update admin inputs
+            document.getElementById('mainTitleInput').value = config.mainTitle;
+            document.getElementById('subTitleInput').value = config.subTitle;
+            document.getElementById('wheelTitleInput').value = config.wheelTitle;
+            document.getElementById('resultTitleInput').value = config.resultTitle;
+            document.getElementById('prizesLabelInput').value = config.prizesLabel;
+            document.getElementById('prizeUnitInput').value = config.prizeUnit;
+            document.getElementById('totalPrizes').value = config.totalPrizes;
+        }
+
+        // Update segment configuration inputs
+        function updateSegmentConfigInputs() {
+            segmentConfig.innerHTML = '';
+            
+            config.segments.forEach((segment, index) => {
+                const segmentItem = document.createElement('div');
+                segmentItem.className = 'segment-config-item';
+                segmentItem.innerHTML = `
+                    <input type="number" value="${segment.value}" placeholder="Value" data-index="${index}" data-type="value">
+                    <input type="number" value="${segment.weight}" placeholder="Weight" data-index="${index}" data-type="weight">
+                    <input type="text" value="${segment.name}" placeholder="Name" data-index="${index}" data-type="name">
+                `;
+                segmentConfig.appendChild(segmentItem);
+            });
         }
 
         // Show confirmation dialog
@@ -867,34 +1004,16 @@
             spinButton.disabled = true;
             result.classList.remove('show');
             
-            // Play spinning sound
-            spinSound.currentTime = 0;
-            spinSound.play();
-            
             // Add spinning effect
             wheel.classList.add('spinning');
             
-            const segments = generateScatteredSegments();
+            const segments = generateSegments();
             const segmentAngle = 360 / segments.length;
             const randomSegment = Math.floor(Math.random() * segments.length);
+            const extraRotations = 5;
+            const finalRotation = (extraRotations * 360) + (360 - (randomSegment * segmentAngle));
             
-            // Calculate the final rotation to land on the selected segment
-            const fullRotations = 5; // Minimum full rotations
-            const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            
-            // Calculate the target rotation to land on the selected segment
-            // The pointer is at 0 degrees (top), so we want the segment to end up there
-            const targetSegmentCenter = (randomSegment * segmentAngle) + (segmentAngle / 2);
-            
-            // Calculate the rotation needed to bring the target segment to the pointer
-            const rotationNeeded = (360 - targetSegmentCenter) + (fullRotations * 360);
-            
-            // Apply spin animation
-            const finalRotation = currentRotation + rotationNeeded;
             wheel.style.transform = `rotate(${finalRotation}deg)`;
-            
-            // Calculate spin duration
-            const spinDuration = 5000; // 5 seconds total
             
             setTimeout(() => {
                 const winningSegment = segments[randomSegment];
@@ -904,7 +1023,8 @@
                 wheel.classList.remove('spinning');
                 
                 // Record participant data
-                recordParticipant("Anonymous", prizeWon, winningSegment.name);
+                const participantName = document.getElementById('participantName').value || "Anonymous";
+                recordParticipant(participantName, prizeWon, winningSegment.name);
                 
                 // Smart supply management
                 if (prizeWon > gameState.prizesRemaining) {
@@ -928,8 +1048,7 @@
                 }
                 
                 spinButton.disabled = false;
-                saveGameState(); // Save after each spin
-            }, spinDuration);
+            }, 4000);
         }
 
         // Record participant data
@@ -974,14 +1093,6 @@
             `;
             
             result.classList.add('show');
-            
-            // Play win sound and trigger confetti
-            winSound.currentTime = 0;
-            winSound.play();
-            
-            // Trigger confetti based on prize value
-            triggerConfetti(prizeWon);
-            
             celebrateWin(prizeWon);
             updateStats();
             updateSpinButton();
@@ -1025,86 +1136,64 @@
             spinButton.disabled = true;
             spinButton.textContent = "GIVEAWAY COMPLETE!";
             spinButton.style.background = 'var(--success)';
-            saveGameState();
         }
 
         // Celebration effect
         function celebrateWin(count) {
             if (count >= 15) {
-                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #E8B954)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A2E, #FFD700)';
                 setTimeout(() => {
-                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #16213E)';
                 }, 1500);
             } else if (count >= 10) {
-                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #4CAF50)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A2E, #4CAF50)';
                 setTimeout(() => {
-                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #16213E)';
                 }, 1000);
             } else if (count >= 5) {
-                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #2E5C8A)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A2E, #2196F3)';
                 setTimeout(() => {
-                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #16213E)';
                 }, 800);
             }
         }
 
-        // Trigger confetti based on prize value
-        function triggerConfetti(prize) {
-            // Play confetti sound
-            confettiSound.currentTime = 0;
-            confettiSound.play();
+        // Apply configuration from admin panel
+        function applyConfiguration() {
+            showLoading("Applying Configuration...");
             
-            // Different confetti effects based on prize value
-            if (prize >= 15) {
-                // Mega win - multiple bursts with different colors
-                confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: { y: 0.6 }
+            // Simulate processing time for better UX
+            setTimeout(() => {
+                // Update text elements
+                config.mainTitle = document.getElementById('mainTitleInput').value || "ADLER'S TV";
+                config.subTitle = document.getElementById('subTitleInput').value || "Presents";
+                config.wheelTitle = document.getElementById('wheelTitleInput').value || "PRIZE BONANZA WHEEL";
+                config.resultTitle = document.getElementById('resultTitleInput').value || "CONGRATULATIONS!";
+                config.prizesLabel = document.getElementById('prizesLabelInput').value || "Prizes Left";
+                config.prizeUnit = document.getElementById('prizeUnitInput').value || "Noodles";
+                config.totalPrizes = parseInt(document.getElementById('totalPrizes').value) || 30;
+                
+                // Update segments
+                const segmentInputs = document.querySelectorAll('.segment-config-item input');
+                segmentInputs.forEach(input => {
+                    const index = parseInt(input.dataset.index);
+                    const type = input.dataset.type;
+                    
+                    if (config.segments[index]) {
+                        if (type === 'value') {
+                            config.segments[index].value = parseInt(input.value) || 1;
+                        } else if (type === 'weight') {
+                            config.segments[index].weight = parseInt(input.value) || 1;
+                        } else if (type === 'name') {
+                            config.segments[index].name = input.value || `Prize ${index + 1}`;
+                        }
+                    }
                 });
                 
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 100,
-                        angle: 60,
-                        spread: 80,
-                        origin: { x: 0, y: 0.6 },
-                        colors: ['#C47E2C', '#D89A4E', '#E8B954']
-                    });
-                }, 250);
-                
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 100,
-                        angle: 120,
-                        spread: 80,
-                        origin: { x: 1, y: 0.6 },
-                        colors: ['#C47E2C', '#D89A4E', '#E8B954']
-                    });
-                }, 500);
-            } else if (prize >= 10) {
-                // Big win - two bursts
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
-                
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 80,
-                        spread: 60,
-                        origin: { y: 0.6 }
-                    });
-                }, 300);
-            } else {
-                // Regular win - single burst
-                confetti({
-                    particleCount: 80,
-                    spread: 60,
-                    origin: { y: 0.6 }
-                });
-            }
+                resetGameState();
+                hideLoading();
+                alert('Configuration applied successfully!');
+            }, 1000);
         }
 
         // Reset game
@@ -1113,220 +1202,37 @@
             gameState.spinsCompleted = 0;
             gameState.giveawaysCompleted = 0;
             gameState.isGameActive = true;
-            gameState.participants = [];
             
             initializeWheel();
             result.classList.remove('show');
             spinButton.disabled = false;
             spinButton.style.background = 'linear-gradient(135deg, var(--primary), var(--primary-dark))';
-            
-            saveGameState(); // Save after reset
         }
 
-        // Open admin page
-        function openAdminPage() {
-            // Create a simple admin page in a new window
-            const adminWindow = window.open('', 'Admin Settings', 'width=800,height=600,scrollbars=yes');
+        // Export CSV
+        function exportToCSV() {
+            if (gameState.participants.length === 0) {
+                alert("No participant data to export!");
+                return;
+            }
             
-            adminWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Adler's TV - Admin Settings</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-                    <style>
-                        body {
-                            font-family: 'Poppins', sans-serif;
-                            background: #1A1A1A;
-                            color: white;
-                            margin: 0;
-                            padding: 20px;
-                        }
-                        .admin-container {
-                            max-width: 800px;
-                            margin: 0 auto;
-                        }
-                        .admin-header {
-                            text-align: center;
-                            margin-bottom: 30px;
-                        }
-                        .admin-title {
-                            font-size: 2.5rem;
-                            font-weight: 700;
-                            background: linear-gradient(135deg, #C47E2C, #E8B954);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            margin-bottom: 10px;
-                        }
-                        .admin-subtitle {
-                            color: rgba(255,255,255,0.7);
-                        }
-                        .panel-section {
-                            background: rgba(255,255,255,0.1);
-                            padding: 25px;
-                            border-radius: 15px;
-                            margin-bottom: 25px;
-                            backdrop-filter: blur(10px);
-                            border: 1px solid rgba(255,255,255,0.2);
-                        }
-                        .section-title {
-                            font-weight: 700;
-                            margin-bottom: 20px;
-                            color: #E8B954;
-                            font-size: 1.3rem;
-                        }
-                        .config-group {
-                            margin: 15px 0;
-                        }
-                        .config-group label {
-                            display: block;
-                            margin-bottom: 8px;
-                            font-weight: 600;
-                        }
-                        .config-group input, .config-group textarea {
-                            width: 100%;
-                            padding: 12px 15px;
-                            border: 1px solid rgba(255,255,255,0.3);
-                            border-radius: 10px;
-                            background: rgba(0,0,0,0.3);
-                            color: white;
-                            font-family: 'Poppins', sans-serif;
-                        }
-                        .config-group input:focus, .config-group textarea:focus {
-                            border-color: #C47E2C;
-                            outline: none;
-                        }
-                        .button-group {
-                            display: flex;
-                            gap: 15px;
-                            margin-top: 30px;
-                        }
-                        .config-button {
-                            flex: 1;
-                            padding: 15px;
-                            border: none;
-                            border-radius: 10px;
-                            font-family: 'Poppins', sans-serif;
-                            font-weight: 600;
-                            cursor: pointer;
-                            transition: all 0.3s ease;
-                        }
-                        .config-button:hover {
-                            transform: translateY(-3px);
-                        }
-                        .apply-button {
-                            background: #4CAF50;
-                            color: white;
-                        }
-                        .reset-button {
-                            background: #C47E2C;
-                            color: white;
-                        }
-                        .close-button {
-                            background: #D32F2F;
-                            color: white;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="admin-container">
-                        <div class="admin-header">
-                            <div class="admin-title">ADLER'S TV ADMIN</div>
-                            <div class="admin-subtitle">Prize Wheel Configuration</div>
-                        </div>
-                        
-                        <div class="panel-section">
-                            <div class="section-title">Branding & Text</div>
-                            <div class="config-group">
-                                <label>Main Title:</label>
-                                <input type="text" id="adminMainTitle" value="${config.mainTitle}">
-                            </div>
-                            <div class="config-group">
-                                <label>Subtitle:</label>
-                                <input type="text" id="adminSubTitle" value="${config.subTitle}">
-                            </div>
-                            <div class="config-group">
-                                <label>Wheel Title:</label>
-                                <input type="text" id="adminWheelTitle" value="${config.wheelTitle}">
-                            </div>
-                            <div class="config-group">
-                                <label>Result Title:</label>
-                                <input type="text" id="adminResultTitle" value="${config.resultTitle}">
-                            </div>
-                            <div class="config-group">
-                                <label>Prizes Label:</label>
-                                <input type="text" id="adminPrizesLabel" value="${config.prizesLabel}">
-                            </div>
-                            <div class="config-group">
-                                <label>Prize Unit Name:</label>
-                                <input type="text" id="adminPrizeUnit" value="${config.prizeUnit}">
-                            </div>
-                        </div>
-                        
-                        <div class="panel-section">
-                            <div class="section-title">Game Settings</div>
-                            <div class="config-group">
-                                <label>Total Prizes Available:</label>
-                                <input type="number" id="adminTotalPrizes" value="${config.totalPrizes}" min="1">
-                            </div>
-                        </div>
-                        
-                        <div class="button-group">
-                            <button class="config-button apply-button" onclick="applyAdminChanges()">Apply Changes</button>
-                            <button class="config-button reset-button" onclick="resetGame()">Reset Game</button>
-                            <button class="config-button close-button" onclick="window.close()">Close</button>
-                        </div>
-                    </div>
-                    
-                    <script>
-                        function applyAdminChanges() {
-                            const newConfig = {
-                                mainTitle: document.getElementById('adminMainTitle').value || "ADLER'S TV",
-                                subTitle: document.getElementById('adminSubTitle').value || "Presents",
-                                wheelTitle: document.getElementById('adminWheelTitle').value || "PRIZE BONANZA WHEEL",
-                                resultTitle: document.getElementById('adminResultTitle').value || "CONGRATULATIONS!",
-                                prizesLabel: document.getElementById('adminPrizesLabel').value || "Prizes Left",
-                                prizeUnit: document.getElementById('adminPrizeUnit').value || "Noodles",
-                                totalPrizes: parseInt(document.getElementById('adminTotalPrizes').value) || 30,
-                                segments: ${JSON.stringify(config.segments)},
-                                segmentColors: ${JSON.stringify(config.segmentColors)},
-                                adminPasscode: "${config.adminPasscode}"
-                            };
-                            
-                            localStorage.setItem('adlersTVWheelConfig', JSON.stringify(newConfig));
-                            alert('Configuration saved successfully! The main page will refresh.');
-                            
-                            // Refresh the main page
-                            if (window.opener && !window.opener.closed) {
-                                window.opener.location.reload();
-                            }
-                        }
-                        
-                        function resetGame() {
-                            if (confirm('Are you sure you want to reset the game? This will clear all progress and participant data.')) {
-                                const defaultGameState = {
-                                    prizesRemaining: ${config.totalPrizes},
-                                    spinsCompleted: 0,
-                                    giveawaysCompleted: 0,
-                                    isGameActive: true,
-                                    participants: []
-                                };
-                                
-                                localStorage.setItem('adlersTVWheelGameState', JSON.stringify(defaultGameState));
-                                alert('Game reset successfully!');
-                                
-                                // Refresh the main page
-                                if (window.opener && !window.opener.closed) {
-                                    window.opener.location.reload();
-                                }
-                            }
-                        }
-                    </script>
-                </body>
-                </html>
-            `);
+            // Create CSV content
+            let csvContent = "ID,Name,Prize,Prize Name,Timestamp\n";
             
-            adminWindow.document.close();
+            gameState.participants.forEach(participant => {
+                csvContent += `${participant.id},"${participant.name}",${participant.prize},"${participant.prizeName}","${participant.timestamp}"\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `participants_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // Initialize
@@ -1334,7 +1240,18 @@
 
         // Event listeners
         spinButton.addEventListener('click', spinWheel);
-        adminToggle.addEventListener('click', openAdminPage);
+        adminToggle.addEventListener('click', () => {
+            adminPanel.classList.toggle('show');
+        });
+        applyConfig.addEventListener('click', applyConfiguration);
+        resetGame.addEventListener('click', () => {
+            showConfirmation(
+                "Reset Game", 
+                "Are you sure you want to reset the game? This will clear all current progress and start fresh.", 
+                resetGameState
+            );
+        });
+        exportCSV.addEventListener('click', exportToCSV);
 
         // Keyboard support
         document.addEventListener('keydown', (e) => {
