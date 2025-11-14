@@ -28,11 +28,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%),
-                linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%);
+            background: linear-gradient(135deg, var(--dark), #2A2A2A);
             color: var(--light);
             min-height: 100vh;
             display: flex;
@@ -41,56 +37,12 @@
             justify-content: center;
             padding: 20px;
             overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated background elements */
-        .bg-element {
-            position: fixed;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(196, 126, 44, 0.1) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        .bg-element:nth-child(1) {
-            width: 200px;
-            height: 200px;
-            top: 10%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-
-        .bg-element:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            right: 10%;
-            animation-delay: -2s;
-        }
-
-        .bg-element:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            bottom: 20%;
-            left: 20%;
-            animation-delay: -4s;
-        }
-
-        .bg-element:nth-child(4) {
-            width: 120px;
-            height: 120px;
-            top: 30%;
-            right: 20%;
-            animation-delay: -1s;
         }
 
         .container {
             width: 100%;
             max-width: 500px;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
 
         .header {
@@ -192,6 +144,10 @@
             transform: rotate(45deg);
             text-align: center;
             width: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .segment-count {
@@ -199,6 +155,9 @@
             font-weight: 900;
             display: block;
             line-height: 1;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            margin-bottom: 5px;
         }
 
         .segment-text {
@@ -207,6 +166,8 @@
             opacity: 0.95;
             margin-top: 3px;
             font-weight: 700;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
         }
 
         .pointer-container {
@@ -409,69 +370,30 @@
             transform: translateY(-2px);
         }
 
-        .admin-panel-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .admin-panel-overlay.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
         .admin-panel {
-            background: rgba(30,30,30,0.95);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
+            margin-top: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            text-align: left;
+            display: none;
             border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            position: relative;
+            max-height: 70vh;
+            overflow-y: auto;
         }
 
-        .close-admin {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .close-admin:hover {
-            background: rgba(255,255,255,0.1);
-            transform: rotate(90deg);
+        .admin-panel.show {
+            display: block;
+            animation: slideDown 0.5s ease;
         }
 
         .panel-title {
             font-weight: 700;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: var(--accent);
             text-align: center;
-            font-size: 1.5rem;
-            padding-right: 30px;
+            font-size: 1.3rem;
         }
 
         .panel-section {
@@ -812,11 +734,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
         /* Responsive adjustments */
         @media (max-width: 500px) {
             .wheel-container {
@@ -849,21 +766,10 @@
             .button-group {
                 flex-direction: column;
             }
-            
-            .admin-panel {
-                padding: 20px;
-                margin: 10px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background Elements -->
-    <div class="bg-element"></div>
-    <div class="bg-element"></div>
-    <div class="bg-element"></div>
-    <div class="bg-element"></div>
-
     <div class="container">
         <div class="header">
             <div class="logo" id="mainTitle">ADLER'S TV</div>
@@ -910,6 +816,73 @@
 
         <button class="admin-toggle" id="adminToggle">⚙️ Admin Settings</button>
 
+        <div class="admin-panel" id="adminPanel">
+            <div class="panel-title">Wheel Configuration</div>
+            
+            <div class="panel-section">
+                <div class="section-title">Branding & Text</div>
+                <div class="config-group">
+                    <label>Main Title:</label>
+                    <input type="text" id="mainTitleInput" value="ADLER'S TV">
+                </div>
+
+                <div class="config-group">
+                    <label>Subtitle:</label>
+                    <input type="text" id="subTitleInput" value="Presents">
+                </div>
+
+                <div class="config-group">
+                    <label>Wheel Title:</label>
+                    <input type="text" id="wheelTitleInput" value="PRIZE BONANZA WHEEL">
+                </div>
+
+                <div class="config-group">
+                    <label>Result Title:</label>
+                    <input type="text" id="resultTitleInput" value="CONGRATULATIONS!">
+                </div>
+
+                <div class="config-group">
+                    <label>Prizes Label:</label>
+                    <input type="text" id="prizesLabelInput" value="Prizes Left">
+                </div>
+
+                <div class="config-group">
+                    <label>Prize Unit Name:</label>
+                    <input type="text" id="prizeUnitInput" value="Noodles">
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="section-title">Game Settings</div>
+                <div class="config-group">
+                    <label>Total Prizes Available:</label>
+                    <input type="number" id="totalPrizes" value="30" min="1">
+                </div>
+
+                <div class="config-group">
+                    <label>Segment Configuration:</label>
+                    <div class="segment-config" id="segmentConfig">
+                        <!-- Segment inputs will be generated by JavaScript -->
+                    </div>
+                    <small>Format: Value, Weight, Display Name</small>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="section-title">Participant Tracking</div>
+                <div class="config-group">
+                    <label>Participant Name (Optional):</label>
+                    <input type="text" id="participantName" placeholder="Enter participant name for record keeping">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="config-button apply-button" id="applyConfig">Apply Changes</button>
+                <button class="config-button reset-button" id="resetGame">Reset Game</button>
+                <button class="config-button export-button" id="exportCSV">Export CSV</button>
+            </div>
+        </div>
+
         <!-- Passcode Dialog -->
         <div class="passcode-dialog" id="passcodeDialog">
             <div class="passcode-content">
@@ -918,77 +891,6 @@
                 <div class="passcode-buttons">
                     <button class="passcode-button passcode-cancel" id="passcodeCancel">Cancel</button>
                     <button class="passcode-button passcode-submit" id="passcodeSubmit">Submit</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Panel Overlay -->
-        <div class="admin-panel-overlay" id="adminPanelOverlay">
-            <div class="admin-panel">
-                <button class="close-admin" id="closeAdmin">×</button>
-                <div class="panel-title">Wheel Configuration</div>
-                
-                <div class="panel-section">
-                    <div class="section-title">Branding & Text</div>
-                    <div class="config-group">
-                        <label>Main Title:</label>
-                        <input type="text" id="mainTitleInput" value="ADLER'S TV">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Subtitle:</label>
-                        <input type="text" id="subTitleInput" value="Presents">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Wheel Title:</label>
-                        <input type="text" id="wheelTitleInput" value="PRIZE BONANZA WHEEL">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Result Title:</label>
-                        <input type="text" id="resultTitleInput" value="CONGRATULATIONS!">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Prizes Label:</label>
-                        <input type="text" id="prizesLabelInput" value="Prizes Left">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Prize Unit Name:</label>
-                        <input type="text" id="prizeUnitInput" value="Noodles">
-                    </div>
-                </div>
-
-                <div class="panel-section">
-                    <div class="section-title">Game Settings</div>
-                    <div class="config-group">
-                        <label>Total Prizes Available:</label>
-                        <input type="number" id="totalPrizes" value="30" min="1">
-                    </div>
-
-                    <div class="config-group">
-                        <label>Segment Configuration:</label>
-                        <div class="segment-config" id="segmentConfig">
-                            <!-- Segment inputs will be generated by JavaScript -->
-                        </div>
-                        <small>Format: Value, Weight, Display Name</small>
-                    </div>
-                </div>
-
-                <div class="panel-section">
-                    <div class="section-title">Participant Tracking</div>
-                    <div class="config-group">
-                        <label>Participant Name (Optional):</label>
-                        <input type="text" id="participantName" placeholder="Enter participant name for record keeping">
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button class="config-button apply-button" id="applyConfig">Apply Changes</button>
-                    <button class="config-button reset-button" id="resetGame">Reset Game</button>
-                    <button class="config-button export-button" id="exportCSV">Export CSV</button>
                 </div>
             </div>
         </div>
@@ -1103,8 +1005,7 @@
         const spinsCompletedElement = document.getElementById('spinsCompleted');
         const giveawaysCompletedElement = document.getElementById('giveawaysCompleted');
         const adminToggle = document.getElementById('adminToggle');
-        const adminPanelOverlay = document.getElementById('adminPanelOverlay');
-        const closeAdmin = document.getElementById('closeAdmin');
+        const adminPanel = document.getElementById('adminPanel');
         const applyConfig = document.getElementById('applyConfig');
         const resetGame = document.getElementById('resetGame');
         const exportCSV = document.getElementById('exportCSV');
@@ -1243,22 +1144,12 @@
             passcodeDialog.classList.remove('show');
         }
 
-        // Show admin panel overlay
-        function showAdminPanel() {
-            adminPanelOverlay.classList.add('show');
-        }
-
-        // Hide admin panel overlay
-        function hideAdminPanel() {
-            adminPanelOverlay.classList.remove('show');
-        }
-
         // Check passcode
         function checkPasscode() {
             const enteredPasscode = passcodeInput.value;
             if (enteredPasscode === config.adminPasscode) {
                 hidePasscodeDialog();
-                showAdminPanel();
+                adminPanel.classList.add('show');
             } else {
                 alert("Incorrect passcode. Please try again.");
                 passcodeInput.value = '';
@@ -1321,16 +1212,17 @@
             // Improved spinning physics for consistent behavior
             const fullRotations = 5; // Minimum full rotations
             const currentRotation = parseFloat(wheel.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
-            const normalizedRotation = currentRotation % 360;
             
             // Calculate the target rotation to land on the selected segment
+            // The pointer is at 0 degrees (top), so we want the segment to end up there
             const targetSegmentCenter = (randomSegment * segmentAngle) + (segmentAngle / 2);
-            const rotationNeeded = 360 - targetSegmentCenter;
             
-            // Add full rotations and ensure we always spin forward
-            const finalRotation = currentRotation + (fullRotations * 360) + rotationNeeded + (360 - normalizedRotation);
+            // Calculate the rotation needed to bring the target segment to the pointer
+            // We need to account for the current rotation and add full rotations
+            const rotationNeeded = (360 - targetSegmentCenter) + (fullRotations * 360);
             
             // Apply spin animation
+            const finalRotation = currentRotation + rotationNeeded;
             wheel.style.transform = `rotate(${finalRotation}deg)`;
             
             // Calculate spin duration
@@ -1464,19 +1356,19 @@
         // Celebration effect
         function celebrateWin(count) {
             if (count >= 15) {
-                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #E8B954)';
                 setTimeout(() => {
-                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
                 }, 1500);
             } else if (count >= 10) {
-                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(76, 175, 80, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #4CAF50)';
                 setTimeout(() => {
-                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
                 }, 1000);
             } else if (count >= 5) {
-                document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(46, 92, 138, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(46, 92, 138, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.1) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                document.body.style.background = 'linear-gradient(135deg, #1A1A1A, #2E5C8A)';
                 setTimeout(() => {
-                    document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(196, 126, 44, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(232, 185, 84, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(46, 92, 138, 0.05) 0%, transparent 50%), linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 50%, #1A1A1A 100%)';
+                    document.body.style.background = 'linear-gradient(135deg, var(--dark), #2A2A2A)';
                 }, 800);
             }
         }
@@ -1578,12 +1470,6 @@
                 checkPasscode();
             }
         });
-        closeAdmin.addEventListener('click', hideAdminPanel);
-        adminPanelOverlay.addEventListener('click', (e) => {
-            if (e.target === adminPanelOverlay) {
-                hideAdminPanel();
-            }
-        });
         applyConfig.addEventListener('click', applyConfiguration);
         resetGame.addEventListener('click', () => {
             showConfirmation(
@@ -1598,9 +1484,6 @@
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && !spinButton.disabled && gameState.isGameActive) {
                 spinWheel();
-            }
-            if (e.code === 'Escape' && adminPanelOverlay.classList.contains('show')) {
-                hideAdminPanel();
             }
         });
     </script>
